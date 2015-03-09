@@ -16,7 +16,6 @@ Plug 'chriskempson/vim-tomorrow-theme' "color
 Plug 'vim-scripts/grep.vim' "search
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-eunuch'
-Plug 'kchmck/vim-coffee-script' " coffescript syntax
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/vim-pseudocl'
 Plug 'junegunn/vim-oblique'
@@ -31,7 +30,12 @@ Plug 'Shougo/neocomplete.vim' "autocompletion
 Plug 'bling/vim-airline'
 Plug 'jpo/vim-railscasts-theme'
 Plug 'junegunn/vim-easy-align'
-Plug 'terryma/vim-expand-region'
+Plug '29decibel/codeschool-vim-theme'
+Plug 'tpope/vim-vividchalk' " color scheme
+Plug 'kchmck/vim-coffee-script'
+Plug 'endel/vim-github-colorscheme'
+Plug 'jnurmine/Zenburn' " color scheme
+Plug 'w0ng/vim-hybrid' " color scheme
 call plug#end()
 
 set number
@@ -41,6 +45,7 @@ set wildmenu        " visual autocomplete for command menu
 set incsearch       " search as characters are entered
 set hlsearch        " highlight matches
 set ignorecase
+set t_Co=256
 
 if has('gui_running')
 " remove gvim menus
@@ -52,7 +57,7 @@ if has('gui_running')
   set guioptions-=b
   set guioptions-=e
   " set background=light
-  colorscheme railscasts
+  colorscheme Zenburn
   set guifont=Monaco:h12
 endif
 
@@ -61,17 +66,15 @@ let mapleader      = ","
 let maplocalleader = ","
 
 " Disable arrows
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
+" map <up> <nop>
+" map <down> <nop>
+" map <left> <nop>
+" map <right> <nop>
 
 " git
 " status
 map <Leader>gs :Gstatus<CR>
 " commit
-map <Leader>gc :Gcommit<CR>
-" diff
 map <Leader>gd :Gdiff<CR>
 " add current
 map <Leader>gw :Gwrite<CR>
@@ -133,7 +136,6 @@ endif
 
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
 
 "Fugitive
 set diffopt+=vertical
@@ -143,8 +145,6 @@ nnoremap <Leader>o :CtrlP<CR>
 map <Leader>b :CtrlPBuffer<CR>
 let g:ctrlp_match_window_bottom   = 0
 let g:ctrlp_match_window_reversed = 0
-
-autocmd BufWritePre <buffer> :StripWhitespace
 
 set laststatus=2
 
@@ -158,21 +158,15 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.branch = '⎇'
 let g:airline_symbols.paste = 'Þ'
 
-" To open a new empty buffer
-nmap <leader>T :enew<cr>
 " Move to the next buffer
 nmap <leader>l :bnext<CR>
 
 " Move to the previous buffer
-nmap <leader>h :bprevious<CR>
+nmap <leader>k :bprevious<CR>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
-nmap <leader>bq :bp <BAR> bd #<CR>
+nmap <leader>q :bp <BAR> bd #<CR>
 
 autocmd BufWritePre *.rb,*.erb,*.js,*.css,*.yml,*.rake :%s/\s\+$//e
 
 let g:user_emmet_leader_key='<C-z>'
-
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
-
