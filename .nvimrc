@@ -53,7 +53,8 @@ map <Leader>o :only<CR>
 map <Leader>b [unite]b
 map <Leader>f [unite]p
 
-map <Leader>- :VimFiler <cr>
+map <Leader>- :VimFiler<cr>
+map <Leader>e :VimFilerExplorer<cr>
 
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
@@ -86,17 +87,7 @@ nmap <leader>k :bprevious<CR>
 " This replicates the idea of closing a tab
 nmap <leader>q :bp <BAR> bd #<CR>
 
-set laststatus=2
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-let g:airline_left_sep = '¬ª'
-let g:airline_right_sep = '¬´'
-let g:airline_symbols.whitespace = 'Œû'
-let g:airline_symbols.branch = '‚éá'
-let g:airline_symbols.paste = '√û'
+let g:airline_powerline_fonts = 1
 
 " Disable arrows
 map <up> <nop>
@@ -110,4 +101,4 @@ inoremap <leader>w <C-c>:w<CR>
 
 let g:user_emmet_leader_key='<C-Z>'
 
-let g:vimfiler_as_default_explorer = 1
+l
