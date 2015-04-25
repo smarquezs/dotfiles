@@ -50,9 +50,9 @@ let mapleader      = ','
 let maplocalleader = ','
 map <Leader>o :only<CR>
 
-" CtrlP config
-map <Leader>b :Unite buffer<cr>
-map <Leader>f :Unite file <cr>
+map <Leader>b [unite]b
+map <Leader>f [unite]p
+
 map <Leader>- :VimFiler <cr>
 
 "Easy align config
@@ -92,11 +92,11 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-let g:airline_left_sep = '»'
-let g:airline_right_sep = '«'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'Þ'
+let g:airline_left_sep = '¬ª'
+let g:airline_right_sep = '¬´'
+let g:airline_symbols.whitespace = 'Œû'
+let g:airline_symbols.branch = '‚éá'
+let g:airline_symbols.paste = '√û'
 
 " Disable arrows
 map <up> <nop>
