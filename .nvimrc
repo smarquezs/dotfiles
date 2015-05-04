@@ -20,10 +20,8 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
 Plug 'jpo/vim-railscasts-theme'
 Plug 'tomasr/molokai' " color scheme
-Plug 'morhetz/gruvbox' " color scheme
 Plug 'mattn/emmet-vim'
 Plug '29decibel/codeschool-vim-theme'
-Plug 'chriskempson/base16-vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/unite.vim'
 Plug 'rstacruz/vim-fastunite'
@@ -31,12 +29,14 @@ Plug 'Shougo/neomru.vim'
 Plug 'Shougo/unite-outline'
 Plug 'tsukkee/unite-tag'
 Plug 'Shougo/vimfiler'
+Plug 'google/vim-colorscheme-primary' " colorscheme
+Plug 'whatyouhide/vim-gotham'
 " NeoBundle
 call plug#end()
   
 " general config
 set bg=dark
-autocmd VimEnter * colo solarized
+autocmd VimEnter * colo molokai
 
 set nowrap
 set number
@@ -50,11 +50,9 @@ let mapleader      = ','
 let maplocalleader = ','
 map <Leader>o :only<CR>
 
+map <C-p> [unite]p
 map <Leader>b [unite]b
-map <Leader>f [unite]p
-
-map <Leader>- :VimFiler<cr>
-map <Leader>e :VimFilerExplorer<cr>
+map - :VimFiler<CR>
 
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
@@ -66,12 +64,14 @@ map <Leader>gd :Gdiff<CR>
 map <Leader>gw :Gwrite<CR>
 map <Leader>gv :Gitv<CR>
 map <Leader>gb :Git branch<CR>
-map <Leader>gnb :Git checkout -b<CR>
+
+" terminal
+tnoremap <esc> <C-\><C-n>
 
 "spelling
 autocmd BufRead,BufNewFile *.markdown setlocal spell
 autocmd BufRead,BufNewFile *.gitcommit setlocal spell
-autocmd BufRead,BufNewFile *.md setlocal spell
+ " autocmd BufRead,BufNewFile *.md setlocal spell
 
 
 let Grep_Skip_Dirs = '.git log tmp' 
@@ -96,9 +96,17 @@ map <left> <nop>
 map <right> <nop>
 
 " save a file
-nnoremap <leader>w :w<CR>
-inoremap <leader>w <C-c>:w<CR>
+nnoremap <Leader>w :w<CR>
+inoremap <Leader>w <C-c>:w<CR>
+nnoremap <Leader>t :tabNext<CR>
+inoremap <Leader>t <C-c>:tabNext<CR>
 
 let g:user_emmet_leader_key='<C-Z>'
 
-l
+let g:vimfiler_as_default_explorer = 1
+
+let g:vimfiler_tree_leaf_icon = ""
+let g:vimfiler_tree_opened_icon = "▼"
+let g:vimfiler_tree_closed_icon = "▷"
+
+let g:molokai_original = 1
