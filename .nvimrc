@@ -31,12 +31,13 @@ Plug 'tsukkee/unite-tag'
 Plug 'Shougo/vimfiler'
 Plug 'google/vim-colorscheme-primary' " colorscheme
 Plug 'whatyouhide/vim-gotham'
+Plug 'gosukiwi/vim-atom-dark'
 " NeoBundle
 call plug#end()
   
 " general config
 set bg=dark
-autocmd VimEnter * colo molokai
+autocmd VimEnter * colo atom-dark
 
 set nowrap
 set number
@@ -45,14 +46,17 @@ set splitright
 set splitbelow
 set ignorecase
 set mouse=a
+set textwidth=80
 
 let mapleader      = ','
 let maplocalleader = ','
 map <Leader>o :only<CR>
 
+" unite
 map <C-p> [unite]p
 map <Leader>b [unite]b
 map - :VimFiler<CR>
+map <Leader>ul :Unite -start-insert -buffer-name=line line<CR>
 
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
@@ -63,7 +67,6 @@ map <Leader>gs :Gstatus<CR>
 map <Leader>gd :Gdiff<CR>
 map <Leader>gw :Gwrite<CR>
 map <Leader>gv :Gitv<CR>
-map <Leader>gb :Git branch<CR>
 
 " terminal
 tnoremap <esc> <C-\><C-n>
@@ -94,12 +97,17 @@ map <up> <nop>
 map <down> <nop>
 map <left> <nop>
 map <right> <nop>
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
 
 " save a file
 nnoremap <Leader>w :w<CR>
-inoremap <Leader>w <C-c>:w<CR>
-nnoremap <Leader>t :tabNext<CR>
-inoremap <Leader>t <C-c>:tabNext<CR>
+inoremap <Leader>w <esc>:w<CR>
+" tabs
+nnoremap <leader>( :tabprev<cr>
+nnoremap <leader>) :tabnext<cr>
 
 let g:user_emmet_leader_key='<C-Z>'
 
@@ -110,3 +118,11 @@ let g:vimfiler_tree_opened_icon = "▼"
 let g:vimfiler_tree_closed_icon = "▷"
 
 let g:molokai_original = 1
+
+" Moving lines and selections with Ctrl-J and K
+nnoremap <c-k> :m-2<cr>==
+nnoremap <c-j> :m+<cr>==
+inoremap <c-j> <esc>:m+<cr>==gi
+inoremap <c-k> <esc>:m-2<cr>==gi
+vnoremap <c-j> :m'>+<cr>gv=gv
+v
