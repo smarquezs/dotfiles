@@ -27,17 +27,21 @@ Plug 'Shougo/unite.vim'
 Plug 'rstacruz/vim-fastunite'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/unite-outline'
-Plug 'tsukkee/unite-tag'
 Plug 'Shougo/vimfiler'
 Plug 'google/vim-colorscheme-primary' " colorscheme
 Plug 'whatyouhide/vim-gotham'
 Plug 'gosukiwi/vim-atom-dark'
+Plug 'tsukkee/unite-tag'
+Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
 " NeoBundle
 call plug#end()
-  
+
 " general config
 set bg=dark
-autocmd VimEnter * colo atom-dark
+autocmd VimEnter * colo solarized
+
+" Change buffer whitout saving
+set hidden                                  
 
 set nowrap
 set number
@@ -48,8 +52,9 @@ set ignorecase
 set mouse=a
 set textwidth=80
 
-let mapleader      = ','
-let maplocalleader = ','
+
+let mapleader      = ' '
+let maplocalleader = ' '
 map <Leader>o :only<CR>
 
 " unite
@@ -104,18 +109,17 @@ imap <right> <nop>
 
 " save a file
 nnoremap <Leader>w :w<CR>
-inoremap <Leader>w <esc>:w<CR>
-" tabs
-nnoremap <leader>( :tabprev<cr>
-nnoremap <leader>) :tabnext<cr>
 
 let g:user_emmet_leader_key='<C-Z>'
 
 let g:vimfiler_as_default_explorer = 1
 
-let g:vimfiler_tree_leaf_icon = ""
-let g:vimfiler_tree_opened_icon = "▼"
-let g:vimfiler_tree_closed_icon = "▷"
+" Always show statusline
+set laststatus=2                            
+
+" Better navigation in long lines
+nnoremap j  gj
+nnoremap k  gk
 
 let g:molokai_original = 1
 
@@ -125,4 +129,8 @@ nnoremap <c-j> :m+<cr>==
 inoremap <c-j> <esc>:m+<cr>==gi
 inoremap <c-k> <esc>:m-2<cr>==gi
 vnoremap <c-j> :m'>+<cr>gv=gv
-v
+vnoremap <c-k> :m-2<cr>gv=gv
+
+cmap w!! w !sudo tee % > /dev/null
+
+autocmd FileType vimfiler nunmap <buffer> <space>
