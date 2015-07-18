@@ -18,7 +18,6 @@ Plug 'gregsexton/gitv'
 Plug 'altercation/vim-colors-solarized'
 Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
-Plug 'jpo/vim-railscasts-theme'
 Plug 'tomasr/molokai' " color scheme
 Plug 'mattn/emmet-vim'
 Plug '29decibel/codeschool-vim-theme'
@@ -33,12 +32,45 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'tsukkee/unite-tag'
 Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plug 'yosiat/oceanic-next-vim'
+Plug 'jpo/vim-railscasts-theme'
+Plug 'Wutzara/vim-materialtheme'
+Plug 'chriskempson/base16-vim'
+Plug 'dyng/ctrlsf.vim'
 " NeoBundle
 call plug#end()
 
-" general config
-set bg=dark
-autocmd VimEnter * colo solarized
+if $ITERM_PROFILE == 'Railscasts'
+  autocmd VimEnter * colo railscasts
+endif
+
+if $ITERM_PROFILE == 'Solarized Dark'
+  set bg=dark
+  autocmd VimEnter * colo solarized 
+endif
+
+if $ITERM_PROFILE == 'Material'
+  set bg=dark
+  autocmd VimEnter * colo material-theme
+endif
+
+if $ITERM_PROFILE == 'Solarized Light'
+  set bg=light
+  autocmd VimEnter * colo solarized
+endif
+
+if $ITERM_PROFILE == 'Monokai'
+  autocmd VimEnter * colo molokai
+endif
+
+if $ITERM_PROFILE == 'Codeschool'
+  autocmd VimEnter * colo codeschool 
+endif
+
+if $ITERM_PROFILE == 'Base16'
+  set bg=dark
+  autocmd VimEnter * colo base16-tomorrow
+endif
 
 " Change buffer whitout saving
 set hidden                                  
@@ -48,7 +80,9 @@ set number
 set noswapfile
 set splitright
 set splitbelow
+set smartcase
 set ignorecase
+set incsearch
 set mouse=a
 set textwidth=80
 
@@ -86,14 +120,6 @@ let Grep_Skip_Dirs = '.git log tmp'
 
 set clipboard+=unnamedplus
 autocmd BufWritePre *.rb,*.erb,*.js,*.css,*.yml,*.rake,*.haml,*.json,*.java :%s/\s\+$//e
-" Move to the next buffer
-nmap <leader>l :bnext<CR>
-
-" Move to the previous buffer
-nmap <leader>k :bprevious<CR>
-" Close the current buffer and move to the previous one
-" This replicates the idea of closing a tab
-nmap <leader>q :bp <BAR> bd #<CR>
 
 let g:airline_powerline_fonts = 1
 
@@ -121,6 +147,7 @@ set laststatus=2
 nnoremap j  gj
 nnoremap k  gk
 
+nmap <leader>cf <Plug>CtrlSFPrompt
 let g:molokai_original = 1
 
 " Moving lines and selections with Ctrl-J and K
@@ -134,3 +161,7 @@ vnoremap <c-k> :m-2<cr>gv=gv
 cmap w!! w !sudo tee % > /dev/null
 
 autocmd FileType vimfiler nunmap <buffer> <space>
+
+" vim-ruby
+let ruby_operators = 1
+let ruby_space_errors = 1
