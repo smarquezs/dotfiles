@@ -96,6 +96,10 @@ set visualbell
 set t_vb=
 set tm=500
 
+" set wildmenu " enhanced command line completion
+set showcmd " show incomplete commands
+" set wildmode=list:longest " complete files like a shell
+
 set so=7 " set 7 lines to the cursors - when moving vertical
 set scrolloff=3 " lines of text around cursor
 set title " set terminal title
@@ -172,7 +176,13 @@ nnoremap <right> <nop>
 
 " save a file
 nnoremap <silent><Leader>, :w<CR>
-nnoremap <silent><Leader>. :q<CR>
+
+" switch between current and last buffer
+nmap <leader>. <c-^>
+
+" scroll the viewport faster
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
 
 let g:user_emmet_leader_key='<C-Z>'
 
