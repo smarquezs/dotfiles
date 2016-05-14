@@ -50,11 +50,15 @@ call plug#end()
 
 syntax enable
 
-set background=light
+set background=dark
 colorscheme solarized
 
+if $ITERM_PROFILE == 'Solarized Light'
+  set background=light
+endif
+
 if has("gui_running")
-  set background=dark
+  set background=light
   colorscheme solarized
   " set gfn=Monaco:h12.5
   let s:uname = system("uname")
@@ -140,6 +144,11 @@ map <Leader>gl :GV<CR>
 
 " ctags
 nnoremap <leader>s :tag <C-R><C-W><CR><Left>
+" hit ,f to find the definition of the current class
+" this uses ctags. the standard way to get this is Ctrl-]
+nnoremap <silent><leader>f <C-]>
+" use ,F to jump to tag in a vertical split
+nnoremap <silent><leader>F :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
 
 "spelling
 autocmd BufRead,BufNewFile *.markdown setlocal spell
@@ -148,12 +157,13 @@ autocmd BufRead,BufNewFile *.gitcommit setlocal spell
 
 " Make it obvious where 80 characters is
 set textwidth=80
-highlight ColorColumn ctermbg=000000
 set colorcolumn=+1
 
 " Numbers
 set number
 set numberwidth=5
+
+set sidescroll=1
 
 let Grep_Skip_Dirs = '.git log tmp'
 
@@ -267,7 +277,8 @@ if executable('ag')
 endif
 
 " bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+noremap K :Ag! <C-r>=expand('<cword>')<CR><CR>
+" nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap \ :Ag<SPACE>
 
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
@@ -288,3 +299,15 @@ nmap <Leader>ct :call ReindexCtags()<CR>
 
 " highlight conflicts
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" via: http://whynotwiki.com/Vim
+" Use v or # to get a variable interpolation (inside of a string)}
+" ysiw#   Wrap the token under the cursor in #{}
+" v...s#  Wrap the selection in #{}
+let g:surround_113 = "#{\r}"   " v
+let g:surround_35  = "#{\r}"   " #
+
+" Select text in an ERb file with visual mode and then press s- or s=
+" Or yss- to do entire line.
+let g:surround_45 = "<% \r %>"    " -
+let g:surround_61 = "<%= \r %>"   " =
