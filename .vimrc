@@ -45,17 +45,23 @@ Plug 'scwood/vim-hybrid'
 Plug 'ck3g/vim-change-hash-syntax'
 Plug 'wikitopian/hardmode'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'elixir-lang/vim-elixir'
+Plug 'FooSoft/vim-argwrap'
+Plug 'mhartington/oceanic-next'
+" Plug 'whatyouhide/vim-lengthmatters'
 " NeoBundle
 call plug#end()
 
 syntax enable
 
+colorscheme oceanicnext
 set background=dark
-colorscheme solarized
+" set background=dark
+" colorscheme solarized
 
-if $ITERM_PROFILE == 'Solarized Light'
-  set background=light
-endif
+" if $ITERM_PROFILE == 'Solarized Light'
+"   set background=light
+" endif
 
 if has("gui_running")
   set background=light
@@ -68,7 +74,7 @@ if has("gui_running")
 endif
 
 " Basic setiings
-" set guicolors
+set guicolors
 set clipboard=unnamed " copy to system clipboard
 " set ruler
 set nowrap         " don't wrap lines
@@ -92,8 +98,7 @@ set ignorecase
 set incsearch
 set hlsearch
 set mouse=a
-set textwidth=120
-
+"
 " error bells
 set noerrorbells
 set visualbell
@@ -120,7 +125,7 @@ map <leader>db :bw<cr>
 vmap <Enter> <Plug>(EasyAlign)
 
 " NERDtree
-map <leader>n :NERDTreeToggle<CR>
+map <silent><leader>n :NERDTreeToggle<CR>
 map <silent><leader>- :NERDTreeFind<cr>
 let NERDTreeShowHidden=0
 let g:nerdtree_tabs_focus_on_files = 1
@@ -169,6 +174,7 @@ let Grep_Skip_Dirs = '.git log tmp'
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+" let g:airline_theme='oceanicnext'
 
 " Vim. Live it. (http://www.tylercipriani.com/vim.html)
 inoremap <up> <nop>
@@ -311,3 +317,13 @@ let g:surround_35  = "#{\r}"   " #
 " Or yss- to do entire line.
 let g:surround_45 = "<% \r %>"    " -
 let g:surround_61 = "<%= \r %>"   " =
+
+" let g:lengthmatters_on_by_default = 1
+" let g:lengthmatters_start_at_column = 81
+"
+"
+" Gitgutter
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
+
+nnoremap <silent> <leader>a :ArgWrap<CR>
