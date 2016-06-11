@@ -50,7 +50,7 @@ values."
      ;; (version-control :variables
      ;;                  version-control-diff-tool 'diff-hl)
      (version-control :variables
-                      version-control-global-margin t)
+                      version-control-diff-tool 'git-gutter+)
      (ranger :variables
              ranger-show-preview t)
      eyebrowse
@@ -85,6 +85,7 @@ values."
    ;; (default t)
    ;; js2-mode
    js2-basic-offset 2
+   js-indent-level 2
    ;; web-mode
    css-indent-offset 2
    web-mode-markup-indent-offset 2
@@ -93,7 +94,7 @@ values."
    web-mode-attr-indent-offset 2
 
    global-evil-search-highlight-persist nil
-   dotspacemacs-default-theme 'solarized
+   dotspacemacs-default-theme 'spacemacs
    dotspacemacs-elpa-https t
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    dotspacemacs-elpa-timeout 5
@@ -126,12 +127,12 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-dark
-                         wombat
+   dotspacemacs-themes '(spacemacs-dark
+                         solarized-dark
                          solarized-light
+                         wombat
                          monokai
                          spacemacs-light
-                         spacemacs-dark
                          gotham
                          leuven
                          zenburn)
@@ -141,7 +142,7 @@ values."
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Monaco"
                                :size 13
-                               :weight light
+                               :weight normal
                                :width normal
                                :powerline-scale 1.1)
    ;; The leader key
@@ -221,7 +222,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -295,9 +296,12 @@ you should place you code here."
   (linum-relative-toggle))
 
 (defun dotspacemacs/user-config ()
+  ;; always enable indent-guide
+  (spacemacs/toggle-indent-guide-globally-on)
   (global-hl-line-mode -1) ; Disable current line highlight
   (global-linum-mode) ; Show line numbers by default
   (turn-on-fci-mode)
+  (evil-leader/set-key "," 'save-buffer)
 )
 
 ;; (defun copy-from-osx ()
@@ -317,9 +321,7 @@ you should place you code here."
 (with-eval-after-load 'org (setq org-agenda-files
                                  '("~/Dropbox/agenda.org")))
 
-(setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-
-(fset 'evil-visual-update-x-selection 'ignore) 
+(fset 'evil-visual-update-x-selection 'ignore)
 
 ;; Scale fonts
 (global-set-key (kbd "C-+") 'text-scale-increase)
