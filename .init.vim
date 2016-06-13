@@ -1,4 +1,4 @@
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
@@ -14,14 +14,16 @@ Plug 'cohama/lexima.vim' " plugin for auto-close
 Plug 'Yggdroot/indentLine'
 Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'mattn/emmet-vim'
 Plug '29decibel/codeschool-vim-theme'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/neomru.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'gertjanreynaert/cobalt2-vim-theme'
 Plug 'altercation/vim-colors-solarized'
 Plug 'ngmy/vim-rubocop'
+Plug 'crusoexia/vim-monokai'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -31,50 +33,25 @@ Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/seoul256.vim'
-Plug 'ruanyl/vim-gh-line'
-Plug 'junegunn/gv.vim'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'flazz/vim-colorschemes'
-Plug 'Valloric/YouCompleteMe'
-Plug 'tpope/vim-unimpaired'
-Plug 'sheerun/vim-wombat-scheme'
-Plug 'sickill/vim-monokai'
-Plug 'jpo/vim-railscasts-theme'
-Plug 'mkarmona/colorsbox'
-Plug 'scwood/vim-hybrid'
-Plug 'ck3g/vim-change-hash-syntax'
 Plug 'wikitopian/hardmode'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'elixir-lang/vim-elixir'
-Plug 'FooSoft/vim-argwrap'
+Plug 'ruanyl/vim-gh-line'
+Plug 'justinmk/vim-sneak'
+Plug 'junegunn/gv.vim'
 Plug 'mhartington/oceanic-next'
-" Plug 'whatyouhide/vim-lengthmatters'
-" NeoBundle
+Plug 'ntpeters/vim-better-whitespace'
+
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+
 call plug#end()
 
-syntax enable
-
-colorscheme oceanicnext
-set background=dark
-" set background=dark
-" colorscheme solarized
-
-" if $ITERM_PROFILE == 'Solarized Light'
-"   set background=light
-" endif
-
-if has("gui_running")
-  set background=light
-  colorscheme solarized
-  " set gfn=Monaco:h12.5
-  let s:uname = system("uname")
-  if s:uname == "Darwin\n"
-    set guifont=Inconsolata\ for\ Powerline:h15
-  endif
-endif
+set termguicolors
+set bg=dark
+autocmd VimEnter * colo OceanicNext
 
 " Basic setiings
-set guicolors
 set clipboard=unnamed " copy to system clipboard
 " set ruler
 set nowrap         " don't wrap lines
@@ -82,9 +59,8 @@ set tabstop=2      " a tab is two spaces
 set shiftwidth=2   " an autoindent (with <<) is two spaces
 set softtabstop=2  " if we have smart tabs, treat like hard tabs
 set expandtab      " Use spaces instead of tags
+" set cursorline     " Highlight the current line
 set list           " Show invisible characters
-set lazyredraw
-set relativenumber
 
 " Change buffer whitout saving
 set hidden
@@ -96,64 +72,36 @@ set splitbelow
 set smartcase
 set ignorecase
 set incsearch
-set hlsearch
 set mouse=a
-"
-" error bells
-set noerrorbells
-set visualbell
-set t_vb=
-set tm=500
+set textwidth=80
+set lazyredraw
+set relativenumber
+set sidescroll=1
+set splitbelow
+set splitright
 
-" set wildmenu " enhanced command line completion
-set showcmd " show incomplete commands
-" set wildmode=list:longest " complete files like a shell
-
-set so=7 " set 7 lines to the cursors - when moving vertical
-set scrolloff=3 " lines of text around cursor
-set title " set terminal title
 let mapleader      = ' '
 let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
-
-map <Leader>b :Buffers <CR>
-map <Leader>ur :History <CR>
-
-map <leader>db :bw<cr>
 
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
 
 " NERDtree
-map <silent><leader>n :NERDTreeToggle<CR>
+map <leader>n :NERDTreeToggle<CR>
 map <silent><leader>- :NERDTreeFind<cr>
 let NERDTreeShowHidden=0
-let g:nerdtree_tabs_focus_on_files = 1
-
-" Make nerdtree look nice
-let NERDTreeMinimalUI = 1
-" let NERDTreeDirArrows = 1
-let g:NERDTreeWinSize = 30
-
-" close NERDTree after a file is opened
-let g:NERDTreeQuitOnOpen=0
+let g:NERDTreeWinSize=35
 
 "Fugitive
 set diffopt+=vertical
 map <Leader>gs :Gstatus<CR>
 map <Leader>gd :Gdiff<CR>
 map <Leader>gw :Gwrite<CR>
-map <Leader>gr :Gread<CR>
-map <Leader>gL :GV!<CR>
-map <Leader>gl :GV<CR>
+map <Leader>gv :Gitv<CR>
 
-" ctags
-nnoremap <leader>s :tag <C-R><C-W><CR><Left>
-" hit ,f to find the definition of the current class
-" this uses ctags. the standard way to get this is Ctrl-]
-nnoremap <silent><leader>f <C-]>
-" use ,F to jump to tag in a vertical split
-nnoremap <silent><leader>F :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
+" terminal
+tnoremap <esc> <C-\><C-n>
 
 "spelling
 autocmd BufRead,BufNewFile *.markdown setlocal spell
@@ -162,39 +110,37 @@ autocmd BufRead,BufNewFile *.gitcommit setlocal spell
 
 " Make it obvious where 80 characters is
 set textwidth=80
+highlight ColorColumn ctermbg=000000
 set colorcolumn=+1
 
 " Numbers
 set number
 set numberwidth=5
 
-set sidescroll=1
-
 let Grep_Skip_Dirs = '.git log tmp'
 
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-" let g:airline_theme='oceanicnext'
 
 " Vim. Live it. (http://www.tylercipriani.com/vim.html)
-inoremap <up> <nop>
+" inoremap <up> <nop>
 vnoremap <up> <nop>
 nnoremap <up> <nop>
-inoremap <down> <nop>
+" inoremap <down> <nop>
 vnoremap <down> <nop>
 nnoremap <down> <nop>
-inoremap <left> <nop>
+" inoremap <left> <nop>
 vnoremap <left> <nop>
 nnoremap <left> <nop>
-inoremap <right> <nop>
+" inoremap <right> <nop>
 vnoremap <right> <nop>
 nnoremap <right> <nop>
 
 " save a file
 nnoremap <silent><Leader>, :w<CR>
+nnoremap <silent><Leader>q :q<CR>
 
 " switch between current and last buffer
-nmap <leader>. <c-^>
+nmap <leader><tab> <c-^>
 
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
@@ -210,13 +156,12 @@ nnoremap j  gj
 nnoremap k  gk
 
 nmap <leader>cf <Plug>CtrlSFPrompt
+
 nmap <silent> <BS> :nohlsearch<CR>
 
 " vim-ruby
 let ruby_operators    = 1
 let ruby_space_errors = 1
-let ruby_no_expensive = 1
-" let ruby_fold = 1
 
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
@@ -250,25 +195,24 @@ map <C-P> :FZF<CR>
 let g:syntastic_eruby_ruby_quiet_messages =
     \ {'regex': 'possibly useless use of a variable in void context'}
 
-" Sign Column made by solarized color is strange, clear it.
-highlight clear SignColumn
-" vim-gitgutter will use Sign Column to set its color, reload it.
-call gitgutter#highlight#define_highlights()
+" Disable scrollbars
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=L
 
-"mark syntax errors with :signs
-let g:syntastic_enable_signs=1
-"automatically jump to the error when saving the file
-let g:syntastic_auto_jump=0
-"show the error list automatically
-let g:syntastic_auto_loc_list=1
-"don't care about warnings
-let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:deoplete#enable_at_startup = 1
+" Use smartcase.
+let g:deoplete#enable_smart_case = 1
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  deoplete#mappings#smart_close_popup()."\<C-h>"
 
-let g:indent_guides_auto_colors = 1
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
-
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+endfunction
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " The Silver Searcher
 if executable('ag')
@@ -287,24 +231,10 @@ noremap K :Ag! <C-r>=expand('<cword>')<CR><CR>
 " nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap \ :Ag<SPACE>
 
-" Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
-
-" Index ctags from any project, including those outside Rails
-function! ReindexCtags()
-  let l:ctags_hook = '$(git rev-parse --show-toplevel)/.git/hooks/ctags'
-
-  if exists(l:ctags_hook)
-    exec '!'. l:ctags_hook
-  else
-    exec "!ctags -R ."
-  endif
-endfunction
-
-nmap <Leader>ct :call ReindexCtags()<CR>
-
-" highlight conflicts
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " via: http://whynotwiki.com/Vim
 " Use v or # to get a variable interpolation (inside of a string)}
@@ -318,12 +248,27 @@ let g:surround_35  = "#{\r}"   " #
 let g:surround_45 = "<% \r %>"    " -
 let g:surround_61 = "<%= \r %>"   " =
 
-" let g:lengthmatters_on_by_default = 1
-" let g:lengthmatters_start_at_column = 81
-"
-"
-" Gitgutter
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
+" ctags
+nnoremap <leader>s :tag <C-R><C-W><CR><Left>
+" hit ,f to find the definition of the current class
+" this uses ctags. the standard way to get this is Ctrl-]
+nnoremap <silent><leader>f <C-]>
+" use ,F to jump to tag in a vertical split
+nnoremap <silent><leader>F :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
+" Index ctags from any project, including those outside Rails
+function! ReindexCtags()
+  let l:ctags_hook = '$(git rev-parse --show-toplevel)/.git/hooks/ctags'
 
-nnoremap <silent> <leader>a :ArgWrap<CR>
+  if exists(l:ctags_hook)
+    exec '!'. l:ctags_hook
+  else
+    exec "!ctags -R ."
+  endif
+endfunction
+
+nmap <Leader>ct :call ReindexCtags()<CR>
+
+map <Leader>b :Buffers <CR>
+map <Leader>ur :History <CR>
+
+map <leader>db :bw<cr>
