@@ -10,14 +10,13 @@ Plug 'gregsexton/MatchTag'
 Plug 'scrooloose/syntastic'
 Plug 'vim-ruby/vim-ruby'
 Plug 'airblade/vim-gitgutter'
-Plug 'cohama/lexima.vim' " plugin for auto-close
+Plug 'jiangmiao/auto-pairs' " plugin for auto-close
 Plug 'Yggdroot/indentLine'
 Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mattn/emmet-vim'
 Plug '29decibel/codeschool-vim-theme'
-Plug 'chriskempson/base16-vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'gertjanreynaert/cobalt2-vim-theme'
 Plug 'altercation/vim-colors-solarized'
@@ -49,20 +48,15 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'FooSoft/vim-argwrap'
 Plug 'mhartington/oceanic-next'
 Plug 'lifepillar/vim-solarized8'
-" Plug 'whatyouhide/vim-lengthmatters'
+Plug 'tpope/vim-endwise'
 " NeoBundle
 call plug#end()
 
 syntax enable
 
+" set bg=dark
+" colorscheme OceanicNext
 colorscheme solarized8_dark
-" set background=dark
-" set background=dark
-" colorscheme solarized
-
-" if $ITERM_PROFILE == 'Solarized Light'
-"   set background=light
-" endif
 
 if has("gui_running")
   set background=light
@@ -74,8 +68,15 @@ if has("gui_running")
   endif
 endif
 
+if &term =~ '256color'
+  " disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  set t_ut=
+endif
+
 " Basic setiings
-set guicolors
+
+set termguicolors
 set clipboard=unnamed " copy to system clipboard
 " set ruler
 set nowrap         " don't wrap lines
@@ -175,7 +176,7 @@ let Grep_Skip_Dirs = '.git log tmp'
 
 let g:airline_powerline_fonts = 1
 " let g:airline#extensions#tabline#enabled = 1
-" let g:airline_theme='oceanicnext'
+let g:airline_theme='solarized'
 
 " Vim. Live it. (http://www.tylercipriani.com/vim.html)
 inoremap <up> <nop>
@@ -328,3 +329,10 @@ nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
 
 nnoremap <silent> <leader>a :ArgWrap<CR>
+
+nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
+    \ ? substitute(g:colors_name, 'dark', 'light', '')
+    \ : substitute(g:colors_name, 'light', 'dark', '')
+    \ )<cr>
+
+nnoremap <CR> G
