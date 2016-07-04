@@ -49,14 +49,15 @@ Plug 'FooSoft/vim-argwrap'
 Plug 'mhartington/oceanic-next'
 Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
+Plug 'dracula/vim'
 " NeoBundle
 call plug#end()
 
 syntax enable
 
-" set bg=dark
-" colorscheme OceanicNext
-colorscheme solarized8_dark
+set bg=dark
+colorscheme OceanicNext
+" colorscheme solarized8_dark
 
 if has("gui_running")
   set background=light
@@ -176,7 +177,7 @@ let Grep_Skip_Dirs = '.git log tmp'
 
 let g:airline_powerline_fonts = 1
 " let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='solarized'
+" let g:airline_theme='dracula'
 
 " Vim. Live it. (http://www.tylercipriani.com/vim.html)
 inoremap <up> <nop>
@@ -336,3 +337,12 @@ nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
     \ )<cr>
 
 nnoremap <CR> G
+
+
+" Quickly select the text that was just pasted. This allows you to, e.g.,
+" indent it after pasting.
+noremap gV `[v`]
+" Stay in visual mode when indenting. You will never have to run gv after
+" performing an indentation.
+vnoremap < <gv
+vnoremap > >gv
