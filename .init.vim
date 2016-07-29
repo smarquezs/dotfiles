@@ -10,7 +10,7 @@ Plug 'gregsexton/MatchTag'
 Plug 'scrooloose/syntastic'
 Plug 'vim-ruby/vim-ruby'
 Plug 'airblade/vim-gitgutter'
-Plug 'cohama/lexima.vim' " plugin for auto-close
+Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
 Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
@@ -23,7 +23,6 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'gertjanreynaert/cobalt2-vim-theme'
 Plug 'altercation/vim-colors-solarized'
 Plug 'ngmy/vim-rubocop'
-Plug 'crusoexia/vim-monokai'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -32,24 +31,25 @@ Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/seoul256.vim'
 Plug 'wikitopian/hardmode'
 Plug 'ruanyl/vim-gh-line'
-Plug 'justinmk/vim-sneak'
 Plug 'junegunn/gv.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'ntpeters/vim-better-whitespace'
-
+Plug 'tpope/vim-endwise'
+Plug 'FooSoft/vim-argwrap'
+Plug 'ck3g/vim-change-hash-syntax'
+Plug 'fishbullet/deoplete-ruby'
+Plug 'christoomey/vim-tmux-navigator'
 function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-
+Plug 'lifepillar/vim-solarized8'
 call plug#end()
 
 set termguicolors
-set bg=dark
-autocmd VimEnter * colo OceanicNext
+autocmd VimEnter * colo solarized8_dark
 
 " Basic setiings
 set clipboard=unnamed " copy to system clipboard
@@ -208,12 +208,6 @@ let g:deoplete#enable_smart_case = 1
 inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
 inoremap <expr><BS>  deoplete#mappings#smart_close_popup()."\<C-h>"
 
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-endfunction
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
 " The Silver Searcher
 if executable('ag')
   " Use ag over grep
@@ -231,10 +225,10 @@ noremap K :Ag! <C-r>=expand('<cword>')<CR><CR>
 " nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap \ :Ag<SPACE>
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
 
 " via: http://whynotwiki.com/Vim
 " Use v or # to get a variable interpolation (inside of a string)}
@@ -272,3 +266,13 @@ map <Leader>b :Buffers <CR>
 map <Leader>ur :History <CR>
 
 map <leader>db :bw<cr>
+
+let g:solarized_term_italics = 2
+
+nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
+    \ ? substitute(g:colors_name, 'dark', 'light', '')
+    \ : substitute(g:colors_name, 'light', 'dark', '')
+    \ )<cr>
+
+let g:deoplete#omni#input_patterns = {}
+let g:deoplete#omni#input_patterns.ruby = ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
