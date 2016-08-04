@@ -41,15 +41,20 @@ Plug 'FooSoft/vim-argwrap'
 Plug 'ck3g/vim-change-hash-syntax'
 Plug 'fishbullet/deoplete-ruby'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-haml'
+Plug 'kchmck/vim-coffee-script'
 function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 Plug 'lifepillar/vim-solarized8'
+Plug 'thoughtbot/vim-rspec'
+Plug 'jgdavey/tslime.vim'
+Plug 'edkolev/tmuxline.vim'
 call plug#end()
 
 set termguicolors
-autocmd VimEnter * colo solarized8_dark
+autocmd VimEnter * colo solarized8_dark_flat
 
 " Basic setiings
 set clipboard=unnamed " copy to system clipboard
@@ -98,7 +103,9 @@ set diffopt+=vertical
 map <Leader>gs :Gstatus<CR>
 map <Leader>gd :Gdiff<CR>
 map <Leader>gw :Gwrite<CR>
-map <Leader>gv :Gitv<CR>
+map <Leader>gr :Gread<CR>
+map <Leader>gL :GV!<CR>
+map <Leader>gl :GV<CR>
 
 " terminal
 tnoremap <esc> <C-\><C-n>
@@ -276,3 +283,10 @@ nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
 
 let g:deoplete#omni#input_patterns = {}
 let g:deoplete#omni#input_patterns.ruby = ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
+
+let g:rspec_command = 'call Send_to_Tmux("\RAILS_ENV=test bundle exec rspec {spec}\n")'
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>r :call RunAllSpecs()<CR>
