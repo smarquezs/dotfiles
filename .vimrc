@@ -50,6 +50,7 @@ Plug 'mhartington/oceanic-next'
 Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
 Plug 'dracula/vim'
+Plug 'edkolev/tmuxline.vim'
 " NeoBundle
 call plug#end()
 
@@ -57,7 +58,7 @@ syntax enable
 
 set bg=dark
 colorscheme OceanicNext
-" colorscheme solarized8_dark
+" colorscheme solarized8_dark_flat
 
 if has("gui_running")
   set background=light
@@ -87,6 +88,7 @@ set softtabstop=2  " if we have smart tabs, treat like hard tabs
 set expandtab      " Use spaces instead of tags
 set list           " Show invisible characters
 set lazyredraw
+set ttyfast
 set relativenumber
 
 " Change buffer whitout saving
@@ -346,3 +348,6 @@ noremap gV `[v`]
 " performing an indentation.
 vnoremap < <gv
 vnoremap > >gv
+
+" enable italics, disabled by default
+let g:oceanic_next_terminal_italic = 1
