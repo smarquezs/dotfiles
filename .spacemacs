@@ -94,7 +94,7 @@ values."
    web-mode-attr-indent-offset 2
 
    global-evil-search-highlight-persist nil
-   dotspacemacs-default-theme 'spacemacs
+   dotspacemacs-default-theme 'solarized
    dotspacemacs-elpa-https t
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    dotspacemacs-elpa-timeout 5
@@ -127,9 +127,9 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(solarized-light
+                         spacemacs-dark
                          solarized-dark
-                         solarized-light
                          wombat
                          monokai
                          spacemacs-light
@@ -222,7 +222,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -315,6 +315,8 @@ you should place you code here."
 
 ;; (setq interprogram-cut-function 'paste-to-osx)
 ;; (setq interprogram-paste-function 'copy-from-osx)
+(setq mac-option-modifier 'none)
+(setq mac-command-modifier 'meta)
 (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
 (add-hook 'after-init-hook #'fancy-battery-mode)
 (add-hook 'after-init-hook 'global-company-mode)
