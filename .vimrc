@@ -37,7 +37,6 @@ Plug 'flazz/vim-colorschemes'
 Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-unimpaired'
 Plug 'sheerun/vim-wombat-scheme'
-Plug 'sickill/vim-monokai'
 Plug 'jpo/vim-railscasts-theme'
 Plug 'mkarmona/colorsbox'
 Plug 'scwood/vim-hybrid'
@@ -50,14 +49,22 @@ Plug 'mhartington/oceanic-next'
 Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
 Plug 'dracula/vim'
+Plug 'thoughtbot/vim-rspec'
+Plug 'jgdavey/tslime.vim'
 Plug 'edkolev/tmuxline.vim'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'tpope/vim-vividchalk'
+Plug 'endel/vim-github-colorscheme'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'crusoexia/vim-monokai'
+Plug 'roosta/srcery'
 " NeoBundle
 call plug#end()
 
 syntax enable
 
 set bg=dark
-colorscheme OceanicNext
+colorscheme srcery
 " colorscheme solarized8_dark_flat
 
 if has("gui_running")
