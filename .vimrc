@@ -58,14 +58,18 @@ Plug 'endel/vim-github-colorscheme'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'crusoexia/vim-monokai'
 Plug 'roosta/srcery'
+Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
+Plug 'jansenfuller/crayon'
+
 " NeoBundle
 call plug#end()
 
 syntax enable
 
-set bg=dark
-colorscheme srcery
-" colorscheme solarized8_dark_flat
+" set bg=dark
+" colorscheme OceanicNext
+colorscheme solarized8_light
 
 if has("gui_running")
   set background=light
@@ -84,7 +88,7 @@ if &term =~ '256color'
 endif
 
 " Basic setiings
-
+set autoread
 set termguicolors
 set clipboard=unnamed " copy to system clipboard
 " set ruler
@@ -96,7 +100,7 @@ set expandtab      " Use spaces instead of tags
 set list           " Show invisible characters
 set lazyredraw
 set ttyfast
-set relativenumber
+" set relativenumber
 
 " Change buffer whitout saving
 set hidden
@@ -158,6 +162,7 @@ map <Leader>gw :Gwrite<CR>
 map <Leader>gr :Gread<CR>
 map <Leader>gL :GV!<CR>
 map <Leader>gl :GV<CR>
+map <Leader>gb :Gblame<CR>
 
 " ctags
 nnoremap <leader>s :tag <C-R><C-W><CR><Left>
@@ -203,7 +208,7 @@ vnoremap <right> <nop>
 nnoremap <right> <nop>
 
 " save a file
-nnoremap <silent><Leader>, :w<CR>
+nnoremap <silent><Leader>w :w<CR>
 
 " switch between current and last buffer
 nmap <leader><tab> <c-^>
@@ -271,16 +276,14 @@ call gitgutter#highlight#define_highlights()
 let g:syntastic_enable_signs=1
 "automatically jump to the error when saving the file
 let g:syntastic_auto_jump=0
-"show the error list automatically
-let g:syntastic_auto_loc_list=1
 "don't care about warnings
-let g:syntastic_quiet_messages = {'level': 'warnings'}
+" let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_check_on_open=1
 
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 " The Silver Searcher
 if executable('ag')
@@ -345,9 +348,6 @@ nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
     \ : substitute(g:colors_name, 'light', 'dark', '')
     \ )<cr>
 
-nnoremap <CR> G
-
-
 " Quickly select the text that was just pasted. This allows you to, e.g.,
 " indent it after pasting.
 noremap gV `[v`]
@@ -356,5 +356,14 @@ noremap gV `[v`]
 vnoremap < <gv
 vnoremap > >gv
 
-" enable italics, disabled by default
-let g:oceanic_next_terminal_italic = 1
+autocmd BufRead,BufNewFile *.axlsx set filetype=ruby
+au BufNewFile,BufRead *.arb			set ft=ruby
+
+let g:rspec_command = 'call Send_to_Tmux("\RAILS_ENV=test bundle exec rspec {spec}\n")'
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>r :call RunAllSpecs()<CR>
+
+noremap ; :
