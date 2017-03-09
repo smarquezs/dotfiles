@@ -61,6 +61,8 @@ Plug 'roosta/srcery'
 Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
 Plug 'jansenfuller/crayon'
+Plug 'dodie/vim-disapprove-deep-indentation'
+Plug 'majutsushi/tagbar'
 
 " NeoBundle
 call plug#end()
