@@ -7,7 +7,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
 Plug 'junegunn/vim-easy-align'
 Plug 'gregsexton/MatchTag'
-Plug 'scrooloose/syntastic'
 Plug 'vim-ruby/vim-ruby'
 Plug 'airblade/vim-gitgutter'
 Plug 'jiangmiao/auto-pairs' " plugin for auto-close
@@ -18,59 +17,50 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'mattn/emmet-vim'
 Plug '29decibel/codeschool-vim-theme'
 Plug 'dyng/ctrlsf.vim'
-Plug 'gertjanreynaert/cobalt2-vim-theme'
-Plug 'altercation/vim-colors-solarized'
-Plug 'ngmy/vim-rubocop'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'scrooloose/nerdtree'
-Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/seoul256.vim'
 Plug 'ruanyl/vim-gh-line'
 Plug 'junegunn/gv.vim'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'flazz/vim-colorschemes'
 Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-unimpaired'
-Plug 'sheerun/vim-wombat-scheme'
-Plug 'jpo/vim-railscasts-theme'
-Plug 'mkarmona/colorsbox'
 Plug 'scwood/vim-hybrid'
 Plug 'ck3g/vim-change-hash-syntax'
-Plug 'wikitopian/hardmode'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'FooSoft/vim-argwrap'
 Plug 'mhartington/oceanic-next'
 Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
-Plug 'dracula/vim'
 Plug 'thoughtbot/vim-rspec'
 Plug 'jgdavey/tslime.vim'
-Plug 'edkolev/tmuxline.vim'
 Plug 'jelera/vim-javascript-syntax'
-Plug 'tpope/vim-vividchalk'
-Plug 'endel/vim-github-colorscheme'
-Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'crusoexia/vim-monokai'
 Plug 'roosta/srcery'
+Plug 'tpope/vim-haml'
+Plug 'w0rp/ale'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'morhetz/gruvbox'
-Plug 'joshdick/onedark.vim'
-Plug 'jansenfuller/crayon'
-Plug 'dodie/vim-disapprove-deep-indentation'
-Plug 'majutsushi/tagbar'
+Plug 'wakatime/vim-wakatime'
+Plug 'wikitopian/hardmode'
+Plug 'trevordmiller/nova-vim'
+Plug 'vim-scripts/todo-txt.vim'
 
 " NeoBundle
 call plug#end()
 
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
 syntax enable
 
 " set bg=dark
-" colorscheme OceanicNext
+" colorscheme gruvbox
+
 colorscheme solarized8_light
 
 if has("gui_running")
@@ -83,6 +73,9 @@ if has("gui_running")
   endif
 endif
 
+set rop=type:directx,geom:1,taamode:1
+set enc=utf-8
+
 if &term =~ '256color'
   " disable Background Color Erase (BCE) so that color schemes
   " render properly when inside 256-color tmux and GNU screen.
@@ -90,6 +83,7 @@ if &term =~ '256color'
 endif
 
 " Basic setiings
+highlight Comment cterm=italic
 set autoread
 set termguicolors
 set clipboard=unnamed " copy to system clipboard
@@ -115,7 +109,7 @@ set smartcase
 set ignorecase
 set incsearch
 set hlsearch
-set mouse=a
+" set mouse=a
 "
 " error bells
 set noerrorbells
@@ -135,8 +129,9 @@ let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
 
 map <Leader>b :Buffers <CR>
+map <Leader>c :Commits <CR>
 map <Leader>ur :History <CR>
-
+imap <C-f> <plug>(fzf-complete-line)
 map <leader>db :bw<cr>
 
 "Easy align config
@@ -179,8 +174,8 @@ autocmd BufRead,BufNewFile *.markdown setlocal spell
 autocmd BufRead,BufNewFile *.gitcommit setlocal spell
  " autocmd BufRead,BufNewFile *.md setlocal spell
 
-" Make it obvious where 80 characters is
-set textwidth=80
+" Make it obvious where 100 characters is
+set textwidth=100
 set colorcolumn=+1
 
 " Numbers
@@ -218,8 +213,6 @@ nmap <leader><tab> <c-^>
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
-
-let g:user_emmet_leader_key='<C-Z>'
 
 " Always show statusline
 set laststatus=2
@@ -265,23 +258,10 @@ map <C-P> :FZF<CR>
 
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
-" let g:hardtime_default_on = 1
-let g:syntastic_eruby_ruby_quiet_messages =
-    \ {'regex': 'possibly useless use of a variable in void context'}
-
 " Sign Column made by solarized color is strange, clear it.
 highlight clear SignColumn
 " vim-gitgutter will use Sign Column to set its color, reload it.
 call gitgutter#highlight#define_highlights()
-
-"mark syntax errors with :signs
-let g:syntastic_enable_signs=1
-"automatically jump to the error when saving the file
-let g:syntastic_auto_jump=0
-"don't care about warnings
-" let g:syntastic_quiet_messages = {'level': 'warnings'}
-let g:syntastic_ruby_checkers = ['rubocop']
-let g:syntastic_check_on_open=1
 
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
@@ -369,3 +349,15 @@ map <Leader>l :call RunLastSpec()<CR>
 map <Leader>r :call RunAllSpecs()<CR>
 
 noremap ; :
+
+" Write this in your vimrc file
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+
+nnoremap <Leader>: :%s/:\([^ ]*\)\(\s*\)=>/\1:/gc<CR>
+
+nnoremap <Leader>{ :%s/{\([^ ]\)/{ \1/gc<CR>
+nnoremap <Leader>} :%s/\([^ ]\)}/\1 }/gc<CR>
+
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
