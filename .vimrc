@@ -15,8 +15,6 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mattn/emmet-vim'
-Plug '29decibel/codeschool-vim-theme'
-Plug 'dyng/ctrlsf.vim'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -25,26 +23,20 @@ Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ruanyl/vim-gh-line'
-Plug 'junegunn/gv.vim'
-Plug 'flazz/vim-colorschemes'
 Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-unimpaired'
-Plug 'scwood/vim-hybrid'
 Plug 'ck3g/vim-change-hash-syntax'
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'FooSoft/vim-argwrap'
 Plug 'mhartington/oceanic-next'
 Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
 Plug 'thoughtbot/vim-rspec'
-Plug 'jgdavey/tslime.vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'crusoexia/vim-monokai'
 Plug 'roosta/srcery'
 Plug 'tpope/vim-haml'
 Plug 'w0rp/ale'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'morhetz/gruvbox'
 Plug 'wakatime/vim-wakatime'
 Plug 'wikitopian/hardmode'
@@ -59,7 +51,7 @@ autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 syntax enable
 
 " set bg=dark
-" colorscheme gruvbox
+" colorscheme spacegray
 
 colorscheme solarized8_light
 
@@ -157,8 +149,6 @@ map <Leader>gs :Gstatus<CR>
 map <Leader>gd :Gdiff<CR>
 map <Leader>gw :Gwrite<CR>
 map <Leader>gr :Gread<CR>
-map <Leader>gL :GV!<CR>
-map <Leader>gl :GV<CR>
 map <Leader>gb :Gblame<CR>
 
 " ctags
@@ -361,3 +351,12 @@ nnoremap <Leader>} :%s/\([^ ]\)}/\1 }/gc<CR>
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
