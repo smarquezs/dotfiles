@@ -42,7 +42,8 @@ Plug 'wakatime/vim-wakatime'
 Plug 'wikitopian/hardmode'
 Plug 'trevordmiller/nova-vim'
 Plug 'vim-scripts/todo-txt.vim'
-
+Plug 'ajmwagar/vim-dues'
+Plug 'christoomey/vim-tmux-navigator'
 " NeoBundle
 call plug#end()
 
@@ -50,10 +51,10 @@ autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 syntax enable
 
-" set bg=dark
-" colorscheme spacegray
+set bg=dark
+colorscheme dues
 
-colorscheme solarized8_light
+" colorscheme solarized8_light
 
 if has("gui_running")
   set background=light
@@ -121,6 +122,7 @@ let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
 
 map <Leader>b :Buffers <CR>
+map <Leader>t :BTags <CR>
 map <Leader>c :Commits <CR>
 map <Leader>ur :History <CR>
 imap <C-f> <plug>(fzf-complete-line)
@@ -244,7 +246,7 @@ function! s:fzf_statusline()
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
-map <C-P> :FZF<CR>
+map <C-T> :FZF<CR>
 
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
@@ -333,21 +335,11 @@ au BufNewFile,BufRead *.arb			set ft=ruby
 
 let g:rspec_command = 'call Send_to_Tmux("\RAILS_ENV=test bundle exec rspec {spec}\n")'
 
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>r :call RunAllSpecs()<CR>
-
 noremap ; :
 
 " Write this in your vimrc file
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
-
-nnoremap <Leader>: :%s/:\([^ ]*\)\(\s*\)=>/\1:/gc<CR>
-
-nnoremap <Leader>{ :%s/{\([^ ]\)/{ \1/gc<CR>
-nnoremap <Leader>} :%s/\([^ ]\)}/\1 }/gc<CR>
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
@@ -360,3 +352,5 @@ au BufNewFile,BufRead *.py
     \ set expandtab
     \ set autoindent
     \ set fileformat=unix
+
+set synmaxcol=200
