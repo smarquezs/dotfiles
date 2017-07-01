@@ -5,6 +5,7 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-vinegar'
 Plug 'junegunn/vim-easy-align'
 Plug 'gregsexton/MatchTag'
 Plug 'vim-ruby/vim-ruby'
@@ -18,7 +19,6 @@ Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'scrooloose/nerdtree'
 Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -130,20 +130,6 @@ map <leader>db :bw<cr>
 
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
-
-" NERDtree
-map <silent><leader>n :NERDTreeToggle<CR>
-map <silent><leader>- :NERDTreeFind<cr>
-let NERDTreeShowHidden=0
-let g:nerdtree_tabs_focus_on_files = 1
-
-" Make nerdtree look nice
-let NERDTreeMinimalUI = 1
-" let NERDTreeDirArrows = 1
-let g:NERDTreeWinSize = 30
-
-" close NERDTree after a file is opened
-let g:NERDTreeQuitOnOpen=0
 
 "Fugitive
 set diffopt+=vertical
@@ -354,3 +340,11 @@ au BufNewFile,BufRead *.py
     \ set fileformat=unix
 
 set synmaxcol=200
+
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 0
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
