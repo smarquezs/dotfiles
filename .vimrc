@@ -5,7 +5,6 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-vinegar'
 Plug 'junegunn/vim-easy-align'
 Plug 'gregsexton/MatchTag'
 Plug 'vim-ruby/vim-ruby'
@@ -44,6 +43,10 @@ Plug 'trevordmiller/nova-vim'
 Plug 'vim-scripts/todo-txt.vim'
 Plug 'ajmwagar/vim-dues'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'rhysd/clever-f.vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'google/vim-colorscheme-primary'
+Plug 'endel/vim-github-colorscheme'
 " NeoBundle
 call plug#end()
 
@@ -51,10 +54,10 @@ autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 syntax enable
 
-set bg=dark
-colorscheme dues
+" set background=dark
+" colorscheme gruvbox
 
-" colorscheme solarized8_light
+colorscheme solarized8_light
 
 if has("gui_running")
   set background=light
@@ -64,6 +67,12 @@ if has("gui_running")
   if s:uname == "Darwin\n"
     set guifont=Inconsolata\ for\ Powerline:h15
   endif
+endif
+
+" Change cursor shape between insert and normal mode in iTerm2.app
+if $TERM_PROGRAM =~ "iTerm"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 endif
 
 set rop=type:directx,geom:1,taamode:1
@@ -89,7 +98,7 @@ set expandtab      " Use spaces instead of tags
 set list           " Show invisible characters
 set lazyredraw
 set ttyfast
-" set relativenumber
+set synmaxcol=300
 
 " Change buffer whitout saving
 set hidden
@@ -165,8 +174,6 @@ set sidescroll=1
 let Grep_Skip_Dirs = '.git log tmp'
 
 let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline_theme='dracula'
 
 " Vim. Live it. (http://www.tylercipriani.com/vim.html)
 inoremap <up> <nop>
@@ -199,7 +206,6 @@ set laststatus=2
 nnoremap j  gj
 nnoremap k  gk
 
-nmap <leader>cf <Plug>CtrlSFPrompt
 nmap <silent> <BS> :nohlsearch<CR>
 
 " vim-ruby
@@ -249,12 +255,6 @@ let g:indent_guides_guide_size = 1
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
 endif
 
 " bind K to grep word under cursor
@@ -293,10 +293,6 @@ let g:surround_35  = "#{\r}"   " #
 let g:surround_45 = "<% \r %>"    " -
 let g:surround_61 = "<%= \r %>"   " =
 
-" let g:lengthmatters_on_by_default = 1
-" let g:lengthmatters_start_at_column = 81
-"
-"
 " Gitgutter
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
@@ -319,13 +315,11 @@ vnoremap > >gv
 autocmd BufRead,BufNewFile *.axlsx set filetype=ruby
 au BufNewFile,BufRead *.arb			set ft=ruby
 
-let g:rspec_command = 'call Send_to_Tmux("\RAILS_ENV=test bundle exec rspec {spec}\n")'
-
 noremap ; :
 
 " Write this in your vimrc file
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
+" let g:ale_lint_on_text_changed = 0
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
@@ -339,12 +333,10 @@ au BufNewFile,BufRead *.py
     \ set autoindent
     \ set fileformat=unix
 
-set synmaxcol=200
-
 " netrw
 let g:netrw_banner = 0
-let g:netrw_liststyle = 3
 let g:netrw_browse_split = 0
-let g:netrw_altv = 1
 let g:netrw_winsize = 25
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+
+let g:solarized_term_italics = 1
