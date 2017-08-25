@@ -1,69 +1,57 @@
 call plug#begin('~/.config/nvim/plugged')
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-sleuth'
-Plug 'junegunn/vim-easy-align'
-Plug 'gregsexton/MatchTag'
-Plug 'vim-ruby/vim-ruby'
-Plug 'airblade/vim-gitgutter'
-Plug 'jiangmiao/auto-pairs' " plugin for auto-close
-Plug 'Yggdroot/indentLine'
-Plug 'kchmck/vim-coffee-script'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'mattn/emmet-vim'
 Plug '29decibel/codeschool-vim-theme'
-Plug 'tpope/vim-repeat'
-Plug 'kana/vim-textobj-user'
-Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'scrooloose/nerdtree'
-Plug 'pangloss/vim-javascript'
-Plug 'ruanyl/vim-gh-line'
-Plug 'junegunn/gv.vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'tpope/vim-unimpaired'
-Plug 'ck3g/vim-change-hash-syntax'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'elixir-lang/vim-elixir'
 Plug 'FooSoft/vim-argwrap'
-Plug 'mhartington/oceanic-next'
-Plug 'lifepillar/vim-solarized8'
-Plug 'tpope/vim-endwise'
-Plug 'jgdavey/tslime.vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'crusoexia/vim-monokai'
-Plug 'roosta/srcery'
-Plug 'tpope/vim-haml'
-Plug 'w0rp/ale'
+Plug 'Shougo/denite.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'morhetz/gruvbox'
+Plug 'ck3g/vim-change-hash-syntax'
+Plug 'elixir-lang/vim-elixir'
+Plug 'gregsexton/MatchTag'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'jiangmiao/auto-pairs' " plugin for auto-close
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'justinmk/vim-gtfo'
+Plug 'kana/vim-textobj-user'
+Plug 'kchmck/vim-coffee-script'
+Plug 'lifepillar/vim-solarized8'
+Plug 'mattn/emmet-vim'
+Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'pangloss/vim-javascript'
+Plug 'rhysd/clever-f.vim'
+Plug 'ruanyl/vim-gh-line'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-haml'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-ruby/vim-ruby'
+Plug 'w0rp/ale'
 Plug 'wakatime/vim-wakatime'
 Plug 'wikitopian/hardmode'
-Plug 'trevordmiller/nova-vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'rhysd/clever-f.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'Shougo/denite.nvim'
-Plug 'justinmk/vim-gtfo'
 " NeoBundle
 call plug#end()
 
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 syntax enable
-
-" set bg=light
-" colorscheme gruvbox
 
 colorscheme solarized8_dark
 
 if has("gui_running")
   set background=light
   colorscheme solarized
-  " set gfn=Monaco:h12.5
   let s:uname = system("uname")
   if s:uname == "Darwin\n"
     set guifont=Inconsolata\ for\ Powerline:h15
@@ -84,14 +72,13 @@ highlight Comment cterm=italic
 highlight htmlArg gui=italic
 highlight htmlArg cterm=italic
 set autoread
-" set termguicolors
 set clipboard=unnamed " copy to system clipboard
 " set ruler
 set nowrap         " don't wrap lines
 set tabstop=2      " a tab is two spaces
 set shiftwidth=2   " an autoindent (with <<) is two spaces
 set softtabstop=2  " if we have smart tabs, treat like hard tabs
-set expandtab      " Use spaces instead of tags
+set expandtab      " Use spaces instead of tabs
 set list           " Show invisible characters
 set lazyredraw
 set ttyfast
@@ -108,17 +95,15 @@ set smartcase
 set ignorecase
 set incsearch
 set hlsearch
-" set mouse=a
-"
+
 " error bells
 set noerrorbells
 set visualbell
 set t_vb=
 set tm=500
 
-" set wildmenu " enhanced command line completion
+set wildmenu " enhanced command line completion
 set showcmd " show incomplete commands
-" set wildmode=list:longest " complete files like a shell
 
 set so=7 " set 7 lines to the cursors - when moving vertical
 set scrolloff=3 " lines of text around cursor
@@ -127,15 +112,12 @@ let mapleader      = ' '
 let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
 
-" map <C-T> :FZF<CR>
-" map <Leader>b :Buffers <CR>
-" map <Leader>c :Commits <CR>
-" map <Leader>t :BTags <CR>
-" map <Leader>ur :History <CR>
-" imap <C-f> <plug>(fzf-complete-line)
-
 nnoremap <C-t> :Denite file_rec<CR>
 nnoremap <Leader>b :Denite buffer<CR>
+
+" Grep
+noremap K :DeniteCursorWord grep:.<CR>
+nnoremap \ :Denite grep<CR>
 
 " Change mappings.
 call denite#custom#map(
@@ -151,8 +133,6 @@ call denite#custom#map(
       \ 'noremap'
 \)
 
-map <leader>db :bw<cr>
-
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
 
@@ -164,7 +144,7 @@ let g:nerdtree_tabs_focus_on_files = 1
 
 " Make nerdtree look nice
 let NERDTreeMinimalUI = 1
-" let NERDTreeDirArrows = 1
+let NERDTreeDirArrows = 1
 let g:NERDTreeWinSize = 30
 
 " close NERDTree after a file is opened
@@ -205,23 +185,12 @@ set sidescroll=1
 
 let Grep_Skip_Dirs = '.git log tmp'
 
-let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline_theme='dracula'
+if !exists("g:gui_oni")
+  autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+endif
 
-" Vim. Live it. (http://www.tylercipriani.com/vim.html)
-inoremap <up> <nop>
-vnoremap <up> <nop>
-nnoremap <up> <nop>
-inoremap <down> <nop>
-vnoremap <down> <nop>
-nnoremap <down> <nop>
-inoremap <left> <nop>
-vnoremap <left> <nop>
-nnoremap <left> <nop>
-inoremap <right> <nop>
-vnoremap <right> <nop>
-nnoremap <right> <nop>
+set laststatus=2
+let g:airline_powerline_fonts = 1
 
 " save a file
 nnoremap <silent><Leader>w :w<CR>
@@ -235,9 +204,6 @@ nnoremap <C-y> 3<C-y>
 
 let g:user_emmet_leader_key='<C-Z>'
 
-" Always show statusline
-set laststatus=2
-
 " Better navigation in long lines
 nnoremap j  gj
 nnoremap k  gk
@@ -249,7 +215,6 @@ nmap <silent> <BS> :nohlsearch<CR>
 let ruby_operators    = 1
 let ruby_space_errors = 1
 let ruby_no_expensive = 1
-" let ruby_fold = 1
 
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
@@ -266,18 +231,6 @@ endfunction
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-function! s:fzf_statusline()
-  " Override statusline as you like
-  highlight fzf1 ctermfg=161 ctermbg=251
-  highlight fzf2 ctermfg=23 ctermbg=251
-  highlight fzf3 ctermfg=237 ctermbg=251
-  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
-endfunction
-
-autocmd! User FzfStatusLine call <SID>fzf_statusline()
-
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-
 " Sign Column made by solarized color is strange, clear it.
 highlight clear SignColumn
 " vim-gitgutter will use Sign Column to set its color, reload it.
@@ -286,23 +239,6 @@ call gitgutter#highlight#define_highlights()
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-" bind K to grep word under cursor
-noremap K :Ag! <C-r>=expand('<cword>')<CR><CR>
-" nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-nnoremap \ :Ag<SPACE>
 
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
@@ -335,20 +271,13 @@ let g:surround_35  = "#{\r}"   " #
 let g:surround_45 = "<% \r %>"    " -
 let g:surround_61 = "<%= \r %>"   " =
 
-" let g:lengthmatters_on_by_default = 1
-" let g:lengthmatters_start_at_column = 81
-"
-"
 " Gitgutter
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
 
+" ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
-
-nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
-    \ ? substitute(g:colors_name, 'dark', 'light', '')
-    \ : substitute(g:colors_name, 'light', 'dark', '')
-    \ )<cr>
+let g:argwrap_tail_comma = 1
 
 " Quickly select the text that was just pasted. This allows you to, e.g.,
 " indent it after pasting.
@@ -359,7 +288,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 autocmd BufRead,BufNewFile *.axlsx set filetype=ruby
-au BufNewFile,BufRead *.arb			set ft=ruby
+au BufNewFile,BufRead *.arb     set ft=ruby
 
 noremap ; :
 
@@ -376,19 +305,16 @@ let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
 let g:deoplete#enable_at_startup = 1
+
 let g:solarized_term_italics = 1
 
-" netrw
-let g:netrw_banner = 0
-let g:netrw_browse_split = 0
-let g:netrw_winsize = 25
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-
-
-" NERDtree
-map <leader>n :NERDTreeToggle<CR>
-map <silent><leader>- :NERDTreeFind<cr>
-let NERDTreeShowHidden=0
-let g:NERDTreeWinSize=35
-
 let g:gtfo#terminals = { 'mac': 'iterm' }
+
+" Ripgrep command on grep source
+call denite#custom#var('grep', 'command', ['rg'])
+call denite#custom#var('grep', 'default_opts',
+    \ ['--vimgrep', '--no-heading'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
