@@ -15,7 +15,6 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mattn/emmet-vim'
-Plug '29decibel/codeschool-vim-theme'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -23,37 +22,32 @@ Plug 'scrooloose/nerdtree'
 Plug 'pangloss/vim-javascript'
 Plug 'ruanyl/vim-gh-line'
 Plug 'junegunn/gv.vim'
-Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-unimpaired'
 Plug 'ck3g/vim-change-hash-syntax'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'elixir-lang/vim-elixir'
 Plug 'FooSoft/vim-argwrap'
 Plug 'mhartington/oceanic-next'
 Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
-Plug 'jgdavey/tslime.vim'
 Plug 'jelera/vim-javascript-syntax'
-Plug 'crusoexia/vim-monokai'
-Plug 'roosta/srcery'
+Plug 'ErichDonGubler/vim-sublime-monokai'
 Plug 'tpope/vim-haml'
 Plug 'w0rp/ale'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'morhetz/gruvbox'
 Plug 'wakatime/vim-wakatime'
 Plug 'wikitopian/hardmode'
-Plug 'trevordmiller/nova-vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'rhysd/clever-f.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'justinmk/vim-gtfo'
 Plug 'rking/ag.vim'
 Plug 'tpope/vim-rhubarb'
-Plug 'jreybert/vimagit'
 Plug 'posva/vim-vue'
 Plug 'rakr/vim-one'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'fvictorio/vim-extract-variable'
+Plug 'sodapopcan/vim-twiggy'
 " NeoBundle
 call plug#end()
 
@@ -61,11 +55,11 @@ autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 syntax enable
 
-set background=dark
-let g:one_allow_italics = 1 " I love italic for comments
-colorscheme one
+" set background=dark
+" let g:one_allow_italics = 1 " I love italic for comments
+" colorscheme one
 
-" colorscheme solarized8_light
+colorscheme solarized8_light
 
 " Basic setiings
 highlight Comment gui=italic
