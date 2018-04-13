@@ -21,7 +21,7 @@ fi
 alias e=$EDITOR
 alias git=hub
 
-function kubelog() {
+function kubelogs() {
   if [ -n "$1" ]
   then
     local default_limit=100
@@ -32,11 +32,9 @@ function kubelog() {
   fi
 }
 
-function kubexec() {
+function kubebash() {
   if [ -n "$1" ]
   then
-    local default_limit=100
-    local tail_limit=${2:-$default_limit}
     echo "Executing.." $1
     local pod=$(kubectl get pods | grep $1 | head -1 | awk '{print $1}')
     kubectl exec -it $pod bash
