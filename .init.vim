@@ -12,8 +12,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'jiangmiao/auto-pairs' " plugin for auto-close
 Plug 'Yggdroot/indentLine'
 Plug 'kchmck/vim-coffee-script'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
@@ -21,54 +20,48 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'scrooloose/nerdtree'
 Plug 'pangloss/vim-javascript'
 Plug 'ruanyl/vim-gh-line'
-Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'ck3g/vim-change-hash-syntax'
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'FooSoft/vim-argwrap'
-Plug 'mhartington/oceanic-next'
-Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
 Plug 'jelera/vim-javascript-syntax'
-Plug 'ErichDonGubler/vim-sublime-monokai'
 Plug 'tpope/vim-haml'
 Plug 'w0rp/ale'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'morhetz/gruvbox'
 Plug 'wakatime/vim-wakatime'
 Plug 'wikitopian/hardmode'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'rhysd/clever-f.vim'
-Plug 'justinmk/vim-gtfo'
 Plug 'rking/ag.vim'
 Plug 'tpope/vim-rhubarb'
-Plug 'posva/vim-vue'
 Plug 'rakr/vim-one'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fvictorio/vim-extract-variable'
-Plug 'sodapopcan/vim-twiggy'
-" NeoBundle
+Plug 'dracula/vim'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'sickill/vim-monokai'
+Plug 'icymind/NeoSolarized'
 call plug#end()
 
+let g:deoplete#enable_at_startup = 1
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 syntax enable
 
-" set background=dark
-" let g:one_allow_italics = 1 " I love italic for comments
-" colorscheme one
-
-colorscheme solarized8_light
+set background=light
+colorscheme onehalflight
 
 " Basic setiings
 highlight Comment gui=italic
 highlight Comment cterm=italic
 highlight htmlArg gui=italic
 highlight htmlArg cterm=italic
+highlight htmlArg cterm=italic
 set autoread
 set termguicolors
 set clipboard=unnamed " copy to system clipboard
+
 " set ruler
 set nowrap         " don't wrap lines
 set tabstop=2      " a tab is two spaces
@@ -78,7 +71,9 @@ set expandtab      " Use spaces instead of tags
 set list           " Show invisible characters
 set lazyredraw
 set ttyfast
-" set relativenumber
+
+set synmaxcol=256
+syntax sync minlines=256
 
 " Change buffer whitout saving
 set hidden
@@ -91,8 +86,7 @@ set smartcase
 set ignorecase
 set incsearch
 set hlsearch
-" set mouse=a
-"
+
 " error bells
 set noerrorbells
 set visualbell
@@ -117,8 +111,6 @@ map <Leader>t :BTags <CR>
 map <Leader>ur :History <CR>
 imap <C-f> <plug>(fzf-complete-line)
 
-map <leader>db :bw<cr>
-
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
 
@@ -128,12 +120,12 @@ map <silent><leader>- :NERDTreeFind<cr>
 let NERDTreeShowHidden=0
 let g:nerdtree_tabs_focus_on_files = 1
 
-" Make nerdtree look nice
-let NERDTreeMinimalUI = 1
-" let NERDTreeDirArrows = 1
-let g:NERDTreeWinSize = 30
+let g:NERDTreeWinSize=35
 
-" close NERDTree after a file is opened
+let NERDTreeMinimalUI = 1
+let g:NERDTreeWinSize = 30
+let g:NERDTreeWinPos = "right"
+
 let g:NERDTreeQuitOnOpen=0
 
 "Fugitive
@@ -170,10 +162,6 @@ set numberwidth=5
 set sidescroll=1
 
 let Grep_Skip_Dirs = '.git log tmp'
-
-let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'one'
 
 " Vim. Live it. (http://www.tylercipriani.com/vim.html)
 inoremap <up> <nop>
@@ -286,28 +274,11 @@ endfunction
 
 nmap <Leader>ct :call ReindexCtags()<CR>
 
-" highlight conflicts
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
-" via: http://whynotwiki.com/Vim
-" Use v or # to get a variable interpolation (inside of a string)}
-" ysiw#   Wrap the token under the cursor in #{}
-" v...s#  Wrap the selection in #{}
 let g:surround_113 = "#{\r}"   " v
 let g:surround_35  = "#{\r}"   " #
 
-" Select text in an ERb file with visual mode and then press s- or s=
-" Or yss- to do entire line.
 let g:surround_45 = "<% \r %>"    " -
 let g:surround_61 = "<%= \r %>"   " =
-
-" let g:lengthmatters_on_by_default = 1
-" let g:lengthmatters_start_at_column = 81
-"
-"
-" Gitgutter
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
 
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
@@ -329,37 +300,40 @@ au BufNewFile,BufRead *.arb			set ft=ruby
 
 noremap ; :
 
-" ale
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-
-nnoremap <Leader>: :%s/:\([^ ]*\)\(\s*\)=>/\1:/gc<CR>
-
-nnoremap <Leader>{ :%s/{\([^ ]\)/{ \1/gc<CR>
-nnoremap <Leader>} :%s/\([^ ]\)}/\1 }/gc<CR>
-
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
 let g:deoplete#enable_at_startup = 1
-let g:solarized_term_italics = 1
-
-" netrw
-let g:netrw_banner = 0
-let g:netrw_browse_split = 0
-let g:netrw_winsize = 25
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
 
-" NERDtree
-map <leader>n :NERDTreeToggle<CR>
-map <silent><leader>- :NERDTreeFind<cr>
-let NERDTreeShowHidden=0
-let g:NERDTreeWinSize=35
+let g:lightline = {
+  \   'colorscheme': 'one',
+  \   'active': {
+  \     'left':[ [ 'mode', 'paste' ],
+  \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+  \     ]
+  \   },
+	\   'component': {
+	\     'lineinfo': ' %3l:%-2v',
+	\   },
+  \   'component_function': {
+  \     'gitbranch': 'fugitive#head',
+  \   }
+  \ }
 
-let g:gtfo#terminals = { 'mac': 'iterm' }
+function! RubocopAutocorrect()
+  execute "!rubocop -a " . bufname("%")
+endfunction
 
-let g:ale_javascript_eslint_use_global = 1
+map <silent> <Leader>cop :call RubocopAutocorrect()<cr>
+
+" ale
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+
+" Move between linting errors
+nnoremap ]r :ALENextWrap<CR>
+nnoremap [r :ALEPreviousWrap<CR>
+
+let g:neosolarized_italic = 1
+let g:neosolarized_vertSplitBgTrans = 1
