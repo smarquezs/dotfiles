@@ -335,5 +335,6 @@ let g:ale_lint_on_text_changed = 0
 nnoremap ]r :ALENextWrap<CR>
 nnoremap [r :ALEPreviousWrap<CR>
 
+" NeoSolarized
 let g:neosolarized_italic = 1
 let g:neosolarized_vertSplitBgTrans = 1
