@@ -25,44 +25,35 @@ Plug 'tpope/vim-unimpaired'
 Plug 'ck3g/vim-change-hash-syntax'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'FooSoft/vim-argwrap'
-Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-endwise'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'tpope/vim-haml'
-Plug 'w0rp/ale'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wakatime/vim-wakatime'
-Plug 'wikitopian/hardmode'
 Plug 'rhysd/clever-f.vim'
 Plug 'rking/ag.vim'
 Plug 'tpope/vim-rhubarb'
-Plug 'posva/vim-vue'
 Plug 'rakr/vim-one'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'fvictorio/vim-extract-variable'
-Plug 'skielbasa/vim-material-monokai'
-Plug 'ruby-formatter/rufo-vim'
-Plug 'itchyny/vim-cursorword'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'simeji/winresizer'
-Plug 'ajmwagar/vim-deus'
-Plug 'maralla/completor.vim'
-" NeoBundle
+Plug 'icymind/NeoSolarized'
+Plug 'maxboisvert/vim-simple-complete'
 call plug#end()
-
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 syntax enable
 
-" set background=light
+" set background=dark
 " let g:one_allow_italics = 1 " I love italic for comments
-" colorscheme one
 
-" colorscheme deus
 
-colorscheme solarized8_dark
+set background=light
+colorscheme NeoSolarized
+
+if has("gui_running")
+   set background=dark
+  colorscheme NeoSolarized
+  set guifont=Hack:h13
+endif
 
 " Basic setiings
 highlight Comment gui=italic
@@ -82,6 +73,9 @@ set expandtab      " Use spaces instead of tags
 set list           " Show invisible characters
 set lazyredraw
 set ttyfast
+
+set synmaxcol=256
+syntax sync minlines=256
 " set relativenumber
 
 " Change buffer whitout saving
@@ -95,7 +89,7 @@ set smartcase
 set ignorecase
 set incsearch
 set hlsearch
-" set mouse=a
+set re=1
 "
 " error bells
 set noerrorbells
@@ -114,12 +108,9 @@ let mapleader      = ' '
 let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
 
-map <C-T> :FZF<CR>
+map <C-P> :FZF<CR>
 map <Leader>b :Buffers <CR>
-map <Leader>c :Commits <CR>
-map <Leader>t :BTags <CR>
 map <Leader>ur :History <CR>
-imap <C-f> <plug>(fzf-complete-line)
 
 map <leader>db :bw<cr>
 
@@ -140,20 +131,6 @@ let g:NERDTreeWinSize = 30
 " close NERDTree after a file is opened
 let g:NERDTreeQuitOnOpen=0
 
-"Fugitive
-set diffopt+=vertical
-map <Leader>gs :Gstatus<CR>
-map <Leader>gd :Gdiff<CR>
-map <Leader>gw :Gwrite<CR>
-map <Leader>gr :Gread<CR>
-map <Leader>gL :GV!<CR>
-map <Leader>gl :GV<CR>
-map <Leader>gb :Gblame<CR>
-
-" ctags
-nnoremap <leader>s :tag <C-R><C-W><CR><Left>
-" hit ,f to find the definition of the current class
-" this uses ctags. the standard way to get this is Ctrl-]
 nnoremap <silent><leader>f <C-]>
 " use ,F to jump to tag in a vertical split
 nnoremap <silent><leader>F :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
@@ -189,9 +166,6 @@ inoremap <right> <nop>
 vnoremap <right> <nop>
 nnoremap <right> <nop>
 
-" save a file
-nnoremap <silent><Leader>w :w<CR>
-
 " switch between current and last buffer
 nmap <leader><tab> <c-^>
 
@@ -215,22 +189,6 @@ nmap <silent> <BS> :nohlsearch<CR>
 let ruby_operators    = 1
 let ruby_space_errors = 1
 let ruby_no_expensive = 1
-" let ruby_fold = 1
-
-" Strip trailing whitespace
-function! <SID>StripTrailingWhitespaces()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %s/\s\+$//e
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 function! s:fzf_statusline()
   " Override statusline as you like
@@ -270,25 +228,6 @@ noremap K :Ag! <C-r>=expand('<cword>')<CR><CR>
 " nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap \ :Ag<SPACE>
 
-" Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
-
-" Index ctags from any project, including those outside Rails
-function! ReindexCtags()
-  let l:ctags_hook = '$(git rev-parse --show-toplevel)/.git/hooks/ctags'
-
-  if exists(l:ctags_hook)
-    exec '!'. l:ctags_hook
-  else
-    exec "!ctags -R ."
-  endif
-endfunction
-
-nmap <Leader>ct :call ReindexCtags()<CR>
-
-" highlight conflicts
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
 " via: http://whynotwiki.com/Vim
 " Use v or # to get a variable interpolation (inside of a string)}
 " ysiw#   Wrap the token under the cursor in #{}
@@ -300,14 +239,6 @@ let g:surround_35  = "#{\r}"   " #
 " Or yss- to do entire line.
 let g:surround_45 = "<% \r %>"    " -
 let g:surround_61 = "<%= \r %>"   " =
-
-" let g:lengthmatters_on_by_default = 1
-" let g:lengthmatters_start_at_column = 81
-"
-"
-" Gitgutter
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
 
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
@@ -327,20 +258,10 @@ vnoremap > >gv
 autocmd BufRead,BufNewFile *.axlsx set filetype=ruby
 au BufNewFile,BufRead *.arb			set ft=ruby
 
-noremap ; :
-
-" ale
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
 let g:solarized_term_italics = 1
-
 
 " NERDtree
 map <leader>n :NERDTreeToggle<CR>
@@ -349,8 +270,6 @@ let NERDTreeShowHidden=0
 let g:NERDTreeWinSize=35
 
 let g:gtfo#terminals = { 'mac': 'iterm' }
-
-let g:ale_javascript_eslint_use_global = 1
 
 let g:lightline = {
   \   'colorscheme': 'solarized',
@@ -367,20 +286,24 @@ let g:lightline = {
   \   }
   \ }
 
-" neosnippet
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
 function! RubocopAutocorrect()
   execute "!rubocop -a " . bufname("%")
 endfunction
 
 map <silent> <Leader>cop :call RubocopAutocorrect()<cr>
 
-let g:winresizer_start_key = '<C-R>'
+set synmaxcol=200
 
-" Move between linting errors
-nnoremap ]r :ALENextWrap<CR>
-nnoremap [r :ALEPreviousWrap<CR>
+" Change cursor shape between insert and normal mode in iTerm2.app
+if $TERM_PROGRAM =~ "iTerm"
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+endif
+
+if has('python3')
+   set pyx=3
+else
+   set pyx=2
+endif
+
+set complete-=t
