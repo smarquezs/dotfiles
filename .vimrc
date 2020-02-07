@@ -38,16 +38,21 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'icymind/NeoSolarized'
 Plug 'maxboisvert/vim-simple-complete'
+Plug 'patstockwell/vim-monokai-tasty'
+Plug 'mhartington/oceanic-next'
 call plug#end()
 
 syntax enable
 
+let g:vim_monokai_tasty_italic = 1
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
+colorscheme OceanicNext
+
+" colorscheme vim-monokai-tasty
+
 " set background=dark
-" let g:one_allow_italics = 1 " I love italic for comments
-
-
-set background=light
-colorscheme NeoSolarized
+" colorscheme NeoSolarized
 
 if has("gui_running")
    set background=dark
@@ -272,7 +277,7 @@ let g:NERDTreeWinSize=35
 let g:gtfo#terminals = { 'mac': 'iterm' }
 
 let g:lightline = {
-  \   'colorscheme': 'solarized',
+  \   'colorscheme': 'one',
   \   'active': {
   \     'left':[ [ 'mode', 'paste' ],
   \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
