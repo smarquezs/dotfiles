@@ -1,6 +1,5 @@
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -9,10 +8,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'gregsexton/MatchTag'
 Plug 'vim-ruby/vim-ruby'
 Plug 'airblade/vim-gitgutter'
-Plug 'jiangmiao/auto-pairs' " plugin for auto-close
 Plug 'Yggdroot/indentLine'
 Plug 'kchmck/vim-coffee-script'
-Plug 'itchyny/lightline.vim'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
@@ -27,12 +24,9 @@ Plug 'tpope/vim-endwise'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'tpope/vim-haml'
 Plug 'w0rp/ale'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'wakatime/vim-wakatime'
 Plug 'wikitopian/hardmode'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'rhysd/clever-f.vim'
-Plug 'rking/ag.vim'
 Plug 'tpope/vim-rhubarb'
 Plug 'rakr/vim-one'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -42,15 +36,31 @@ Plug 'dracula/vim'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'sickill/vim-monokai'
 Plug 'icymind/NeoSolarized'
+Plug 'hashivim/vim-terraform'
+Plug 'ayu-theme/ayu-vim'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'f-person/git-blame.nvim'
+Plug 'kdheepak/lazygit.nvim'
+Plug 'sindrets/diffview.nvim'
+Plug 'hoob3rt/lualine.nvim'
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'fgrsnau/ncm2-otherbuf'
+Plug 'ncm2/ncm2-path'
+Plug 'windwp/nvim-autopairs'
 call plug#end()
-
-let g:deoplete#enable_at_startup = 1
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 syntax enable
 
-set background=light
-colorscheme onehalflight
+set background=dark
+colorscheme dracula
+" colorscheme NeoSolarized
+
+" let ayucolor="light"  " for light version of theme
+" let ayucolor="mirage" " for mirage version of theme
+" let ayucolor="dark"   " for dark version of theme
+" colorscheme ayu
 
 " Basic setiings
 highlight Comment gui=italic
@@ -71,6 +81,11 @@ set expandtab      " Use spaces instead of tags
 set list           " Show invisible characters
 set lazyredraw
 set ttyfast
+
+set completeopt=noinsert,menuone,noselect
+
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
 
 set synmaxcol=256
 syntax sync minlines=256
@@ -104,7 +119,7 @@ let mapleader      = ' '
 let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
 
-map <C-T> :FZF<CR>
+map <C-P> :FZF<CR>
 map <Leader>b :Buffers <CR>
 map <Leader>c :Commits <CR>
 map <Leader>t :BTags <CR>
@@ -117,26 +132,17 @@ vmap <Enter> <Plug>(EasyAlign)
 " NERDtree
 map <silent><leader>n :NERDTreeToggle<CR>
 map <silent><leader>- :NERDTreeFind<cr>
-let NERDTreeShowHidden=0
 let g:nerdtree_tabs_focus_on_files = 1
 
 let g:NERDTreeWinSize=35
-
 let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 30
-let g:NERDTreeWinPos = "right"
-
 let g:NERDTreeQuitOnOpen=0
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.git$']
 
-"Fugitive
-set diffopt+=vertical
-map <Leader>gs :Gstatus<CR>
-map <Leader>gd :Gdiff<CR>
-map <Leader>gw :Gwrite<CR>
-map <Leader>gr :Gread<CR>
-map <Leader>gL :GV!<CR>
-map <Leader>gl :GV<CR>
-map <Leader>gb :Gblame<CR>
+" setup mapping to call :LazyGit
+nnoremap <silent> <leader>gg :LazyGit<CR>
 
 " ctags
 nnoremap <leader>s :tag <C-R><C-W><CR><Left>
@@ -149,7 +155,6 @@ nnoremap <silent><leader>F :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:
 "spelling
 autocmd BufRead,BufNewFile *.markdown setlocal spell
 autocmd BufRead,BufNewFile *.gitcommit setlocal spell
- " autocmd BufRead,BufNewFile *.md setlocal spell
 
 " Make it obvious where 100 characters is
 set textwidth=100
@@ -203,7 +208,6 @@ nmap <silent> <BS> :nohlsearch<CR>
 let ruby_operators    = 1
 let ruby_space_errors = 1
 let ruby_no_expensive = 1
-" let ruby_fold = 1
 
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
@@ -220,59 +224,19 @@ endfunction
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-function! s:fzf_statusline()
-  " Override statusline as you like
-  highlight fzf1 ctermfg=161 ctermbg=251
-  highlight fzf2 ctermfg=23 ctermbg=251
-  highlight fzf3 ctermfg=237 ctermbg=251
-  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
-endfunction
-
-autocmd! User FzfStatusLine call <SID>fzf_statusline()
-
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 " Sign Column made by solarized color is strange, clear it.
 highlight clear SignColumn
-" vim-gitgutter will use Sign Column to set its color, reload it.
-call gitgutter#highlight#define_highlights()
 
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-" bind K to grep word under cursor
-noremap K :Ag! <C-r>=expand('<cword>')<CR><CR>
-" nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-nnoremap \ :Ag<SPACE>
+noremap K :Rg! <C-r>=expand('<cword>')<CR><CR>
+nnoremap \ :Rg<SPACE>
 
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
-
-" Index ctags from any project, including those outside Rails
-function! ReindexCtags()
-  let l:ctags_hook = '$(git rev-parse --show-toplevel)/.git/hooks/ctags'
-
-  if exists(l:ctags_hook)
-    exec '!'. l:ctags_hook
-  else
-    exec "!ctags -R ."
-  endif
-endfunction
-
-nmap <Leader>ct :call ReindexCtags()<CR>
 
 let g:surround_113 = "#{\r}"   " v
 let g:surround_35  = "#{\r}"   " #
@@ -303,9 +267,6 @@ noremap ; :
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
-let g:deoplete#enable_at_startup = 1
-
-
 let g:lightline = {
   \   'colorscheme': 'one',
   \   'active': {
@@ -314,7 +275,7 @@ let g:lightline = {
   \     ]
   \   },
 	\   'component': {
-	\     'lineinfo': ' %3l:%-2v',
+	\     'lineinfo': 'ÓÇ° %3l:%-2v',
 	\   },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',
@@ -338,3 +299,11 @@ nnoremap [r :ALEPreviousWrap<CR>
 " NeoSolarized
 let g:neosolarized_italic = 1
 let g:neosolarized_vertSplitBgTrans = 1
+
+lua <<EOF
+require('lualine').setup({
+options = { theme = 'dracula' }
+})
+
+require('nvim-autopairs').setup()
+EOF
