@@ -13,7 +13,6 @@ Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'scrooloose/nerdtree'
-Plug 'pangloss/vim-javascript'
 Plug 'ruanyl/vim-gh-line'
 Plug 'tpope/vim-unimpaired'
 Plug 'ck3g/vim-change-hash-syntax'
@@ -29,12 +28,7 @@ Plug 'rakr/vim-one'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fvictorio/vim-extract-variable'
-Plug 'dracula/vim'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
-Plug 'sickill/vim-monokai'
-Plug 'icymind/NeoSolarized'
 Plug 'hashivim/vim-terraform'
-Plug 'ayu-theme/ayu-vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'f-person/git-blame.nvim'
 Plug 'kdheepak/lazygit.nvim'
@@ -52,12 +46,25 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " typing
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
+
+" syntax
+Plug 'sheerun/vim-polyglot'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'norcalli/nvim-colorizer.lua'
+
+" Themes
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim'
 call plug#end()
 
 syntax enable
 
-set background=dark
-colorscheme dracula
+" set background=dark
+" colorscheme dracula
+
+colorscheme gruvbox
+let g:gruvbox_contrast_dark = "hard"
+highlight Normal ctermbg=NONE
 
 " Basic setiings
 highlight Comment gui=italic
