@@ -1,13 +1,11 @@
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-rails'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
 Plug 'junegunn/vim-easy-align'
 Plug 'gregsexton/MatchTag'
 Plug 'vim-ruby/vim-ruby'
-Plug 'airblade/vim-gitgutter'
 Plug 'Yggdroot/indentLine'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mattn/emmet-vim'
@@ -25,7 +23,6 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'tpope/vim-haml'
 Plug 'w0rp/ale'
 Plug 'wakatime/vim-wakatime'
-Plug 'wikitopian/hardmode'
 Plug 'rhysd/clever-f.vim'
 Plug 'tpope/vim-rhubarb'
 Plug 'rakr/vim-one'
@@ -43,24 +40,24 @@ Plug 'f-person/git-blame.nvim'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'sindrets/diffview.nvim'
 Plug 'hoob3rt/lualine.nvim'
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-bufword'
-Plug 'fgrsnau/ncm2-otherbuf'
-Plug 'ncm2/ncm2-path'
 Plug 'windwp/nvim-autopairs'
+Plug 'elixir-editors/vim-elixir'
+Plug 'slim-template/vim-slim'
+Plug 'mhinz/vim-signify'
+
+" autocomplete
+Plug 'sirver/ultisnips'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" typing
+Plug 'alvan/vim-closetag'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 syntax enable
 
 set background=dark
 colorscheme dracula
-" colorscheme NeoSolarized
-
-" let ayucolor="light"  " for light version of theme
-" let ayucolor="mirage" " for mirage version of theme
-" let ayucolor="dark"   " for dark version of theme
-" colorscheme ayu
 
 " Basic setiings
 highlight Comment gui=italic
@@ -82,16 +79,25 @@ set list           " Show invisible characters
 set lazyredraw
 set ttyfast
 
-set completeopt=noinsert,menuone,noselect
-
-" enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
-
 set synmaxcol=256
 syntax sync minlines=256
 
 " Change buffer whitout saving
 set hidden
+
+" default updatetime 4000ms is not good for async update
+" vim-signify
+set updatetime=300
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" always show signcolumns
+set signcolumn=yes
 
 set number
 set noswapfile
@@ -119,12 +125,34 @@ let mapleader      = ' '
 let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
 
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" coc
+let g:coc_global_extensions = [
+      \ 'coc-tsserver'
+      \ ]
+
+autocmd FileType scss setl iskeyword+=@-@
+
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips']
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsListSnippets="<C-_>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+
 map <C-P> :FZF<CR>
 map <Leader>b :Buffers <CR>
 map <Leader>c :Commits <CR>
 map <Leader>t :BTags <CR>
-map <Leader>ur :History <CR>
+map <Leader>h :History <CR>
 imap <C-f> <plug>(fzf-complete-line)
+
+" HTML, JSX
+let g:closetag_filenames = '*.html,*.js,*.jsx,*.ts,*.tsx'
 
 "Easy align config
 vmap <Enter> <Plug>(EasyAlign)
@@ -140,6 +168,8 @@ let g:NERDTreeWinSize = 30
 let g:NERDTreeQuitOnOpen=0
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
+
+let $FZF_DEFAULT_OPTS='--layout=reverse'
 
 " setup mapping to call :LazyGit
 nnoremap <silent> <leader>gg :LazyGit<CR>
@@ -224,10 +254,6 @@ endfunction
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-
-" Sign Column made by solarized color is strange, clear it.
-highlight clear SignColumn
-
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
@@ -275,7 +301,7 @@ let g:lightline = {
   \     ]
   \   },
 	\   'component': {
-	\     'lineinfo': 'ÓÇ° %3l:%-2v',
+	\     'lineinfo': '√ì√á¬∞ %3l:%-2v',
 	\   },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',
@@ -290,15 +316,12 @@ map <silent> <Leader>cop :call RubocopAutocorrect()<cr>
 
 " ale
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 1
 
 " Move between linting errors
 nnoremap ]r :ALENextWrap<CR>
 nnoremap [r :ALEPreviousWrap<CR>
 
-" NeoSolarized
-let g:neosolarized_italic = 1
-let g:neosolarized_vertSplitBgTrans = 1
 
 lua <<EOF
 require('lualine').setup({
