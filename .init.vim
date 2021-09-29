@@ -55,6 +55,9 @@ Plug 'norcalli/nvim-colorizer.lua'
 " Themes
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim'
+
+" Tmux
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 syntax enable
@@ -135,7 +138,7 @@ map <silent><Leader>o :only<CR>
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " coc
