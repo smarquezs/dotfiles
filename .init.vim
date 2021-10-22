@@ -34,7 +34,7 @@ Plug 'f-person/git-blame.nvim'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'sindrets/diffview.nvim'
 Plug 'hoob3rt/lualine.nvim'
-Plug 'windwp/nvim-autopairs'
+" Plug 'windwp/nvim-autopairs'
 Plug 'elixir-editors/vim-elixir'
 Plug 'slim-template/vim-slim'
 Plug 'mhinz/vim-signify'
@@ -55,6 +55,7 @@ Plug 'norcalli/nvim-colorizer.lua'
 " Themes
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim'
+Plug 'olimorris/onedarkpro.nvim'
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -62,11 +63,12 @@ call plug#end()
 
 syntax enable
 
-" set background=dark
+set background=dark
+colorscheme onedark
 " colorscheme dracula
 
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = "hard"
+" colorscheme gruvbox
+" let g:gruvbox_contrast_dark = "hard"
 highlight Normal ctermbg=NONE
 
 " Basic setiings
@@ -138,13 +140,21 @@ map <silent><Leader>o :only<CR>
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " coc
 let g:coc_global_extensions = [
-      \ 'coc-tsserver'
+      \ 'coc-tsserver',
+      \ 'coc-snippets',
+      \ 'coc-pairs',
+      \ 'coc-json'
       \ ]
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 autocmd FileType scss setl iskeyword+=@-@
 
@@ -171,6 +181,7 @@ vmap <Enter> <Plug>(EasyAlign)
 map <silent><leader>n :NERDTreeToggle<CR>
 map <silent><leader>- :NERDTreeFind<cr>
 let g:nerdtree_tabs_focus_on_files = 1
+let g:NERDTreeIgnore = ['^node_modules$']
 
 let g:NERDTreeWinSize=35
 let NERDTreeMinimalUI = 1
@@ -311,7 +322,7 @@ let g:lightline = {
   \     ]
   \   },
 	\   'component': {
-	\     'lineinfo': '√ì√á¬∞ %3l:%-2v',
+	\     'lineinfo': 'ÓÇ° %3l:%-2v',
 	\   },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',
@@ -337,6 +348,4 @@ lua <<EOF
 require('lualine').setup({
 options = { theme = 'dracula' }
 })
-
-require('nvim-autopairs').setup()
 EOF
