@@ -18,9 +18,8 @@ Plug 'tpope/vim-unimpaired'
 Plug 'ck3g/vim-change-hash-syntax'
 Plug 'FooSoft/vim-argwrap'
 Plug 'tpope/vim-endwise'
-Plug 'jelera/vim-javascript-syntax'
 Plug 'tpope/vim-haml'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'wakatime/vim-wakatime'
 Plug 'rhysd/clever-f.vim'
 Plug 'tpope/vim-rhubarb'
@@ -34,14 +33,18 @@ Plug 'f-person/git-blame.nvim'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'sindrets/diffview.nvim'
 Plug 'hoob3rt/lualine.nvim'
-" Plug 'windwp/nvim-autopairs'
 Plug 'elixir-editors/vim-elixir'
 Plug 'slim-template/vim-slim'
 Plug 'mhinz/vim-signify'
+Plug 'mhinz/vim-mix-format'
 
 " autocomplete
 Plug 'sirver/ultisnips'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Elixir
+Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
+Plug 'mhinz/vim-mix-format'
 
 " typing
 Plug 'alvan/vim-closetag'
@@ -49,26 +52,32 @@ Plug 'tpope/vim-surround'
 
 " syntax
 Plug 'sheerun/vim-polyglot'
+Plug 'pangloss/vim-javascript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'norcalli/nvim-colorizer.lua'
 
 " Themes
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim'
-Plug 'olimorris/onedarkpro.nvim'
+Plug 'lifepillar/vim-solarized8'
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'
+
+" Markdown
+Plug 'tpope/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 
 syntax enable
 
 set background=dark
-colorscheme onedark
-" colorscheme dracula
+" autocmd vimenter * ++nested colorscheme solarized8
+colorscheme dracula
 
 " colorscheme gruvbox
 " let g:gruvbox_contrast_dark = "hard"
+
 highlight Normal ctermbg=NONE
 
 " Basic setiings
@@ -145,16 +154,8 @@ nmap <silent> gr <Plug>(coc-references)
 " coc
 let g:coc_global_extensions = [
       \ 'coc-tsserver',
-      \ 'coc-snippets',
-      \ 'coc-pairs',
-      \ 'coc-json'
+      \ 'coc-pairs'
       \ ]
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 autocmd FileType scss setl iskeyword+=@-@
 
@@ -166,7 +167,6 @@ let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 
 map <C-P> :FZF<CR>
 map <Leader>b :Buffers <CR>
-map <Leader>c :Commits <CR>
 map <Leader>t :BTags <CR>
 map <Leader>h :History <CR>
 imap <C-f> <plug>(fzf-complete-line)
@@ -181,7 +181,6 @@ vmap <Enter> <Plug>(EasyAlign)
 map <silent><leader>n :NERDTreeToggle<CR>
 map <silent><leader>- :NERDTreeFind<cr>
 let g:nerdtree_tabs_focus_on_files = 1
-let g:NERDTreeIgnore = ['^node_modules$']
 
 let g:NERDTreeWinSize=35
 let NERDTreeMinimalUI = 1
@@ -322,7 +321,7 @@ let g:lightline = {
   \     ]
   \   },
 	\   'component': {
-	\     'lineinfo': 'ÓÇ° %3l:%-2v',
+	\     'lineinfo': '√ì√á¬∞ %3l:%-2v',
 	\   },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',
@@ -338,6 +337,8 @@ map <silent> <Leader>cop :call RubocopAutocorrect()<cr>
 " ale
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
+
+let g:ale_fixers = { 'elixir': ['mix_format'] }
 
 " Move between linting errors
 nnoremap ]r :ALENextWrap<CR>
