@@ -37,18 +37,29 @@ Plug 'elixir-editors/vim-elixir'
 Plug 'slim-template/vim-slim'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-mix-format'
+Plug 'digitaltoad/vim-pug'
+Plug 'olimorris/onedarkpro.nvim'
 
 " autocomplete
-Plug 'sirver/ultisnips'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 
 " Elixir
-Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'mhinz/vim-mix-format'
 
 " typing
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
 
 " syntax
 Plug 'sheerun/vim-polyglot'
@@ -60,13 +71,15 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim'
 Plug 'lifepillar/vim-solarized8'
+Plug 'projekt0n/github-nvim-theme'
+Plug 'tanvirtin/monokai.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'
 
-" Markdown
-Plug 'tpope/vim-markdown'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Buffers
+Plug 'matbme/JABS.nvim'
 call plug#end()
 
 syntax enable
@@ -74,9 +87,11 @@ syntax enable
 set background=dark
 " autocmd vimenter * ++nested colorscheme solarized8
 colorscheme dracula
+" colorscheme github_dimmed
+" colorscheme monokai_pro
 
 " colorscheme gruvbox
-" let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_contrast_dark = "hard"
 
 highlight Normal ctermbg=NONE
 
@@ -90,6 +105,8 @@ set autoread
 set termguicolors
 set clipboard=unnamed " copy to system clipboard
 
+set completeopt=menu,menuone,noselect
+
 " set ruler
 set nowrap         " don't wrap lines
 set tabstop=2      " a tab is two spaces
@@ -100,7 +117,7 @@ set list           " Show invisible characters
 set lazyredraw
 set ttyfast
 
-set synmaxcol=256
+set synmaxcol=512
 syntax sync minlines=256
 
 " Change buffer whitout saving
@@ -135,9 +152,7 @@ set visualbell
 set t_vb=
 set tm=500
 
-" set wildmenu " enhanced command line completion
 set showcmd " show incomplete commands
-" set wildmode=list:longest " complete files like a shell
 
 set so=7 " set 7 lines to the cursors - when moving vertical
 set scrolloff=3 " lines of text around cursor
@@ -145,17 +160,6 @@ set title " set terminal title
 let mapleader      = ' '
 let maplocalleader = ' '
 map <silent><Leader>o :only<CR>
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gr <Plug>(coc-references)
-
-" coc
-let g:coc_global_extensions = [
-      \ 'coc-tsserver',
-      \ 'coc-pairs'
-      \ ]
 
 autocmd FileType scss setl iskeyword+=@-@
 
@@ -166,7 +170,7 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 
 map <C-P> :FZF<CR>
-map <Leader>b :Buffers <CR>
+map <Leader>b :JABSOpen <CR>
 map <Leader>t :BTags <CR>
 map <Leader>h :History <CR>
 imap <C-f> <plug>(fzf-complete-line)
@@ -313,21 +317,6 @@ noremap ; :
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
-let g:lightline = {
-  \   'colorscheme': 'one',
-  \   'active': {
-  \     'left':[ [ 'mode', 'paste' ],
-  \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
-  \     ]
-  \   },
-	\   'component': {
-	\     'lineinfo': '√ì√á¬∞ %3l:%-2v',
-	\   },
-  \   'component_function': {
-  \     'gitbranch': 'fugitive#head',
-  \   }
-  \ }
-
 function! RubocopAutocorrect()
   execute "!rubocop -a " . bufname("%")
 endfunction
@@ -344,9 +333,76 @@ let g:ale_fixers = { 'elixir': ['mix_format'] }
 nnoremap ]r :ALENextWrap<CR>
 nnoremap [r :ALEPreviousWrap<CR>
 
-
 lua <<EOF
-require('lualine').setup({
-options = { theme = 'dracula' }
-})
+  require('lualine').setup({
+    options = { theme = 'onedarkpro' }
+  })
+
+  require("jabs").setup {
+    position = "center",
+    width = 50,
+    height = 10,
+    border = "rounded",
+    preview_position = "top",
+    preview = {
+      width = 70,
+      height = 20,
+      border = "rounded",
+    },
+  }
+
+  -- Tabnine setup
+  local tabnine = require('cmp_tabnine.config')
+    tabnine:setup({
+      max_lines = 1000;
+      max_num_results = 20;
+      sort = true;
+      run_on_every_keystroke = true;
+      snippet_placeholder = '..';
+      ignored_file_types = {
+        lua = true
+      };
+    show_prediction_strength = false;
+  })
+
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    sources = {
+      { name = 'cmp_tabnine' },
+      {name = 'path'},
+      {name = 'nvim_lsp', keyword_length = 3},
+      {name = 'buffer', keyword_length = 3},
+      {name = 'luasnip', keyword_length = 2},
+    },
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
+
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' }
+      }, {
+       { name = 'cmdline' }
+      })
+    })
+  })
 EOF
