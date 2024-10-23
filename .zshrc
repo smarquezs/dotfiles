@@ -1,55 +1,32 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Created by Zap installer
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "zsh-users/zsh-autosuggestions"
+plug "zap-zsh/supercharge"
+plug "zap-zsh/zap-prompt"
+plug "zsh-users/zsh-syntax-highlighting"
+plug "chivalryq/git-alias"
+plug "zap-zsh/fzf"
+plug "Aloxaf/fzf-tab"
+plug "Freed-Wu/fzf-tab-source"
 
-# Path to your oh-my-zsh installation.
-export ZSH=/Users/smarquezs/.oh-my-zsh
+# Load and initialise completion system
+autoload -Uz compinit
+compinit
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="pygmalion"
+eval "$(jump shell)"
 
-source $ZSH/oh-my-zsh.sh
+# alias
+alias h="heroku"
+alias lg="lazygit"
+alias ll="exa -l"
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
+# initialize rbenv
+eval "$(rbenv init -)"
 
-alias e=$EDITOR
-alias git=hub
+# initialize direnv
+eval "$(direnv hook zsh)"
 
-function kubelogs() {
-  if [ -n "$1" ]
-  then
-    local default_limit=100
-    local tail_limit=${2:-$default_limit}
-    echo "Logging.." $1
-    local pod=$(kubectl get pods | grep $1 | head -1 | awk '{print $1}')
-    kubectl logs -f --tail=$tail_limit $pod
-  fi
-}
+export EDITOR="zed --wait"
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-function kubebash() {
-  if [ -n "$1" ]
-  then
-    echo "Executing.." $1
-    local pod=$(kubectl get pods | grep $1 | head -1 | awk '{print $1}')
-    kubectl exec -it $pod bash
-  fi
-}
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-[ -s "/Users/smarquezs/.scm_breeze/scm_breeze.sh" ] && source "/Users/smarquezs/.scm_breeze/scm_breeze.sh"
-
-export DOCKER_HOST=tcp://192.168.99.100:2376
-export DOCKER_CERT_PATH=/Users/smarquezs/.docker/machine/machines/dinghy
-export DOCKER_TLS_VERIFY=1
-export DOCKER_MACHINE_NAME=dinghy
-
-plugins=(
-  git
-)
+. /usr/local/opt/asdf/libexec/asdf.sh
